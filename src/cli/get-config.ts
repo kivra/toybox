@@ -1,6 +1,6 @@
 import path from "path";
 import { stat } from 'fs/promises';
-import { UserConfig } from '../types';
+import { Config, UserConfig } from '../types';
 
 const CONFIG_FILE_NAME = "toybox.config.js";
 
@@ -11,7 +11,7 @@ function error(msg: string) {
 
 export async function getConfig(
   customConfigFilePath: string = CONFIG_FILE_NAME
-): Promise<UserConfig> {
+): Promise<Config> {
   const configFilePath = path.resolve(customConfigFilePath)
   try {
     const fileStat = await stat(configFilePath);
@@ -23,7 +23,9 @@ export async function getConfig(
   }
   const config = require(configFilePath) as Partial<UserConfig>;
   return {
-    rootPath: path.dirname(configFilePath),
-    ...config
+    eagerLoading: Boolean(config.eagerLoading),
+    storyPath: config.storyPath || 'src',
+    toyboxRootPath: path.join(__dirname, '..', 'webapp'),
+    wrapperComponent: config.wrapperComponent
   };
 }

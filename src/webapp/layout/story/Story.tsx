@@ -1,29 +1,28 @@
-import styled from '@emotion/styled';
-import { Center, Title } from '@mantine/core';
-import { observer } from 'mobx-react-lite';
-import { config } from '../../config';
-import { Story } from '../../types';
-import { Markdown } from '../Markdown';
-import { ActionOutput } from './ActionOutput';
-import { CodeTamplete } from './CodeTemplate';
-import { Controls } from './control/Controls';
-import { useControl } from './control/useControl';
-import { useIsDarkMode } from './control/useIsDarkMode';
-import { useActionOutput } from './useActionOutput';
+import styled from "@emotion/styled";
+import { Center, Title } from "@mantine/core";
+import { observer } from "mobx-react-lite";
+import { Story } from "../../../types";
+import { Markdown } from "./atom/Markdown";
+import { ActionOutput } from "./ActionOutput";
+import { CodeTamplete } from "./CodeTemplate";
+import { Controls } from "./control/Controls";
+import { useControl } from "./control/useControl";
+import { useIsDarkMode } from "./control/useIsDarkMode";
+import { DefaultComponentWrapper } from "./DefaultComponentWrapper";
+import { useActionOutput } from "./useActionOutput";
 
 export const StoryComponent = observer(({ story }: { story: Story }) => {
   const controls = useControl();
   const darkMode = useIsDarkMode();
   const { outputs, action } = useActionOutput();
-  const ComponentWrapper = config.ComponentWrapper;
 
   const renderdStory = story.render && (
-    <ComponentWrapper isDarkMode={darkMode.isDarkMode}>
+    <DefaultComponentWrapper themeName={darkMode.isDarkMode ? "dark" : "light"}>
       {story.render(controls, action)}
-    </ComponentWrapper>
+    </DefaultComponentWrapper>
   );
 
-  if (story.type === 'fullsize') {
+  if (story.type === "fullsize") {
     return renderdStory || <p>No render function was provided for the story</p>;
   }
 
@@ -39,10 +38,10 @@ export const StoryComponent = observer(({ story }: { story: Story }) => {
         <>
           <Configurator>
             <Prewview
-              style={{ background: darkMode.isDarkMode ? '#000' : '#fff' }}
+              style={{ background: darkMode.isDarkMode ? "#000" : "#fff" }}
             >
               {story.center ? (
-                <Center style={{ height: '100%' }}>{renderdStory}</Center>
+                <Center style={{ height: "100%" }}>{renderdStory}</Center>
               ) : (
                 <div>{renderdStory}</div>
               )}

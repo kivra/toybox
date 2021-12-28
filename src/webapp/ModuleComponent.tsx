@@ -1,22 +1,26 @@
 import { Center, Loader } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
+import type { MarkdownOrStoryModule, StoryRoute } from '../types';
 import { MarkdownStory } from './layout/story/MarkdownStory';
 import { StoryComponent } from './layout/story/Story';
 import { StoryHeader } from './layout/story/StoryHeader';
-import type { MarkdownStoryModule, StoryModule, StoryRoute } from './types';
+import { ErrorBoundary } from './layout/error-boundary/ErrorBoundary';
+import { isLazyComponent, isMarkdownStoryModule } from './util';
 
 export function ModuleComponent({
   route,
 }: {
   route: StoryRoute;
 }): JSX.Element | null {
-  const [storyModule, setStoryModule] = useState<
-    StoryModule | MarkdownStoryModule
-  >();
+  const [storyModule, setStoryModule] = useState<MarkdownOrStoryModule>();
 
   useEffect(() => {
-    route.loader().then(m => setStoryModule(m));
+    if (isLazyComponent(route.component)) {
+      route.component().then(m => setStoryModule(m));
+    } else {
+      setStoryModule(route.component);
+    }
   }, []);
 
   if (!storyModule) {
@@ -62,7 +66,9 @@ export function ModuleComponent({
         />
         <MainInnerWrapper>
           {stories.map((story, i) => (
-            <StoryComponent key={story.name || i} story={story} />
+            <ErrorBoundary key={story.name || i}>
+              <StoryComponent story={story} />
+            </ErrorBoundary>
           ))}
           <div style={{ marginBottom: 200 }} />
         </MainInnerWrapper>
@@ -73,12 +79,6 @@ export function ModuleComponent({
 
 function generateGithubUrl(storyPath: string) {
   return `https://github.com/kivra/react-components/blob/main/src${storyPath}.tsx`;
-}
-
-function isMarkdownStoryModule(
-  module: StoryModule | MarkdownStoryModule
-): module is MarkdownStoryModule {
-  return 'default' in module && typeof module.default === 'string';
 }
 
 const MainInnerWrapper = styled('div')({

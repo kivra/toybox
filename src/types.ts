@@ -1,14 +1,22 @@
 export interface StoryModules {
-  [key: string]: () => Promise<StoryModule>;
+  [key: string]: () => Promise<MarkdownOrStoryModule>;
 }
 
-export type StoryModule = { [componentName: string]: FullStory };
+export interface EagerStoryModules {
+  [key: string]: MarkdownOrStoryModule;
+}
+
+export type MarkdownOrStoryModule = StoryModule | MarkdownStoryModule;
+
+export type StoryModule = { story: FullStory };
 export type MarkdownStoryModule = { default: string };
+
+export type StoryComponent = (() => Promise<MarkdownOrStoryModule>) | MarkdownOrStoryModule;
 
 export interface StoryRoute {
   urlPath: string;
   name: string;
-  loader: () => Promise<StoryModule | MarkdownStoryModule>;
+  component: StoryComponent;
 }
 
 type StoryButtonTypes = 'github' | 'figma';
@@ -24,6 +32,7 @@ export interface StoryHeader {
 }
 export interface FullStory {
   header: StoryHeader;
+  path?: string;
   stories: Story[];
 }
 export interface Story {
@@ -39,7 +48,7 @@ export interface Story {
   codeTemplate?: CodeTemplateFn;
   render?: (
     controls: ReturnType<
-      typeof import('./layout/story/control/useControl').useControl
+      typeof import('./webapp/layout/story/control/useControl').useControl
     >,
     action: (name: string) => (...args: any[]) => void
   ) => JSX.Element;
@@ -58,6 +67,27 @@ export type CodeTemplateFn = (
   children?: string
 ) => string;
 
+export interface Config extends UserConfig {
+  /**
+   * Absolut path to toybox
+   */
+  toyboxRootPath: string;
+}
+
 export interface UserConfig {
-  rootPath: string;
+  /**
+   * Path to search for stories in
+   */
+  storyPath: string;
+  /**
+   * True if all stories should be pre loaded and compiled
+   */
+  eagerLoading: boolean;
+  /**
+   * Wrapper component for stories
+   */
+  wrapperComponent?: {
+    path: string;
+    componentName: string;
+  }
 }

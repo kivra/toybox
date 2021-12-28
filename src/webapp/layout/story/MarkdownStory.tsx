@@ -1,4 +1,4 @@
-import { Markdown } from '../Markdown';
+import { Markdown } from './atom/Markdown';
 
 interface Props {
   children: string;

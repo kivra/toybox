@@ -2,11 +2,11 @@
   "compilerOptions": {
     "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "module": "ES2020",
+    "module": "es2022",
     "jsx": "preserve",
     "sourceMap": true,
     "outDir": "dist",
-    "noEmit": false,
+    "noEmit": true,
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -23,7 +23,9 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": false
+    "forceConsistentCasingInFileNames": false,
+    "declaration": true,
+    "incremental": true
   },
   "include": ["src"],
 }

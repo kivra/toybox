@@ -1,22 +1,29 @@
-import { chdir, cwd } from 'process';
 import { createServer } from 'vite';
-import { UserConfig } from '../types';
-import { plugins } from './vite-plugin';
+import { Config } from '../types';
+import { getPlugins } from './vite-plugin';
 
-
-export async function createViteServer(config: UserConfig) {
-  process.chdir(config.rootPath);
-
+export async function createViteServer(config: Config) {
   const server = await createServer({
-    // any valid user config options, plus `mode` and `configFile`
     configFile: false,
-    root: config.rootPath,
+    root: config.toyboxRootPath,
     server: {
-      port: 1337
+      port: 3001
     },
-    plugins
+    plugins: getPlugins(config),
+    clearScreen: false
   })
   await server.listen()
 
-  server.printUrls()
+  console.log('\x1b[36m%s\x1b[0m',
+    `
+    ████████╗░█████╗░██╗░░░██╗██████╗░░█████╗░██╗░░██╗
+    ╚══██╔══╝██╔══██╗╚██╗░██╔╝██╔══██╗██╔══██╗╚██╗██╔╝
+    ░░░██║░░░██║░░██║░╚████╔╝░██████╦╝██║░░██║░╚███╔╝░
+    ░░░██║░░░██║░░██║░░╚██╔╝░░██╔══██╗██║░░██║░██╔██╗░
+    ░░░██║░░░╚█████╔╝░░░██║░░░██████╦╝╚█████╔╝██╔╝╚██╗
+    ░░░╚═╝░░░░╚════╝░░░░╚═╝░░░╚═════╝░░╚════╝░╚═╝░░╚═╝`
+  );
+  console.log('\x1b[36m%s\x1b[0m', '\n\n Visit http://localhost:3001');
+
+  // server.printUrls()
 }

@@ -1,1 +1,1 @@
-export { FullStory as Story } from './types';
+export type { FullStory as Story } from './types';

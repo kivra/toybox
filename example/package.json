@@ -12,8 +12,5 @@
   "dependencies": {
     "react": "^17.0.2",
     "toybox": "file:.."
-  },
-  "devDependencies": {
-    "tsm": "^2.2.1"
   }
 }

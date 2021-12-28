@@ -1,15 +1,16 @@
 import React from "react";
 import { Story } from "toybox";
 
-export const ButtonStory: Story = {
+export const story: Story = {
+  path: 'Components/Button',
   header: {
     title: "Button",
     description: "My button",
   },
   stories: [
     {
-      render() {
-        return <button>Hello</button>;
+      render({}, action) {
+        return <button onClick={action('onClick')}>Hello!</button>;
       },
     },
   ],
