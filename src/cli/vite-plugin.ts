@@ -1,5 +1,5 @@
 import { join, relative as relativePath, dirname } from "path";
-import react from '@vitejs/plugin-react'
+import react from "@vitejs/plugin-react";
 import { Plugin } from "vite";
 import { Config } from "../types";
 
@@ -76,11 +76,23 @@ function storyWrapperImport(config: Config): Plugin {
   };
 }
 
+const htmlPlugin = (config: Config): Plugin => {
+  return {
+    name: "html-transform",
+    transformIndexHtml(html) {
+      return html
+        .replace("__TITLE__", config.title)
+        .replace("__ICON__", config.emojiIcon);
+    },
+  };
+};
+
 export function getPlugins(config: Config) {
   return [
     react(),
     markdownRawPlugin(),
     storyImportPath(config),
     storyWrapperImport(config),
+    htmlPlugin(config),
   ];
 }

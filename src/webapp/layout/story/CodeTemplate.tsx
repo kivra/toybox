@@ -1,6 +1,6 @@
 import { Prism } from '@mantine/prism';
 import { observer } from 'mobx-react-lite';
-import { CodeTemplateFn } from '../../types';
+import { CodeTemplateFn } from '../../../types';
 import { Control } from './control/useControl';
 import { childrenToString, propsToObject } from './propsToObject';
 

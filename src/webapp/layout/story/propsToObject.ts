@@ -1,4 +1,4 @@
-import type { CodeTemplateProps } from '../../types';
+import type { CodeTemplateProps } from '../../../types';
 
 interface Prop {
   name: string;

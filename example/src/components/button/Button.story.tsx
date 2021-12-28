@@ -5,7 +5,7 @@ export const story: Story = {
   path: 'Components/Button',
   header: {
     title: "Button",
-    description: "My button",
+    description: "Buttons communicate actions that users can take. Button labels express what action will occur when the user interacts with it.",
   },
   stories: [
     {

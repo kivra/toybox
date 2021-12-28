@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { StoryHeader as StoryHeaderProps } from '../../types';
+import { StoryHeader as StoryHeaderProps } from '../../../types';
 import { StoryHeaderButton } from './StoryButton';
 import { Body, Display } from './atom/typo';
 
@@ -14,7 +14,7 @@ export const StoryHeader: React.FC<StoryHeaderProps> = ({
     <div>
       <HeaderWrapper>
         <HeaderContent>
-          <HeaderTitle gutterBottom={false}>{title}</HeaderTitle>
+          {title && <HeaderTitle gutterBottom={false}>{title}</HeaderTitle>}
           {isDescriptionComponent ? (
             description
           ) : (

@@ -76,6 +76,11 @@ export interface Config extends UserConfig {
 
 export interface UserConfig {
   /**
+   * Absolute path to project root.
+   * Will default to config path
+   */
+  rootPath: string;
+  /**
    * Path to search for stories in
    */
   storyPath: string;
@@ -90,4 +95,14 @@ export interface UserConfig {
     path: string;
     componentName: string;
   }
+
+  /**
+   * Title for the html page
+   */
+  title: string;
+
+  /**
+   * Emoji icon for the html page
+   */
+  emojiIcon: string;
 }
