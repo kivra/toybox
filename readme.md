@@ -34,4 +34,5 @@ See `UserConfig` in [src/types.ts](src/types.ts) for more information.
 ### 🧞 Commands
 
 - `npx toybox`: Start preview of toybox. 
-- `npm toybox build`: Build a static version of toybox
+- `npm toybox build`: Build a static version of toybox. The new files will be placed in `toybox_dist`
+
