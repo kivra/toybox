@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { NestedStoryRoute } from '../routeLoader';
+import type { NestedStoryRoute } from '../routeLoader';
 import { Navbar } from './Navbar';
 
 interface Props {

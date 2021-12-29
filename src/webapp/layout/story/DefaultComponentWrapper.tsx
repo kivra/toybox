@@ -2,9 +2,9 @@ import React from 'react';
 
 interface Props {
   children: JSX.Element;
-  themeName: 'dark' | 'light'
+  colorScheme?: 'dark' | 'light'
 }
 
 export function DefaultComponentWrapper({ children }: Props): JSX.Element {
-  return children;
+  return <div data-default-component-wrapper>{children}</div>;
 }

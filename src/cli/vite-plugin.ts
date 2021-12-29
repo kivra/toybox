@@ -35,12 +35,13 @@ function storyImportPath(config: Config): Plugin {
         join(process.cwd(), config.storyPath)
       );
       const replacer = [
-        ["__TSX_STORIES_PATH__", "**/*.story.tsx"],
-        ["__MD_STORIES_PATH__", "**/*.story.md"],
+        ["__TSX_STORIES_PATH__", join(basePath, "**/*.story.tsx")],
+        ["__MD_STORIES_PATH__", join(basePath, "**/*.story.md")],
+        ["__STORY_PATH__", config.storyPath],
       ] as const;
       let newCode = code;
-      for (const [key, path] of replacer) {
-        newCode = newCode.replace(key, join(basePath, path));
+      for (const [key, value] of replacer) {
+        newCode = newCode.replace(key, value);
       }
 
       if (config.eagerLoading) {
@@ -60,32 +61,20 @@ function storyWrapperImport(config: Config): Plugin {
       if (!/Story\.tsx$/.test(filePath)) {
         return undefined;
       } else if (!config.wrapperComponent) {
-        console.log("[story-wrapper-import] 1");
         return undefined;
       } else {
         const importFrom = dirname(filePath);
-        const oldImport = `import { DefaultComponentWrapper } from './DefaultComponentWrapper';`;
         const path = relativePath(
           importFrom,
           join(process.cwd(), config.wrapperComponent.path)
         );
-        const newImport = `import { ${config.wrapperComponent.componentName} as DefaultComponentWrapper } from './${path}';`;
-        return code.replace(oldImport, newImport);
+        return code
+          .replace("DefaultComponentWrapper", `${config.wrapperComponent.componentName} as DefaultComponentWrapper`)
+          .replace('./DefaultComponentWrapper', `./${path}`);
       }
     },
   };
 }
-
-const htmlPlugin = (config: Config): Plugin => {
-  return {
-    name: "html-transform",
-    transformIndexHtml(html) {
-      return html
-        .replace("__TITLE__", config.title)
-        .replace("__ICON__", config.emojiIcon);
-    },
-  };
-};
 
 export function getPlugins(config: Config) {
   return [
@@ -93,6 +82,5 @@ export function getPlugins(config: Config) {
     markdownRawPlugin(),
     storyImportPath(config),
     storyWrapperImport(config),
-    htmlPlugin(config),
   ];
 }

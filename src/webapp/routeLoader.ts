@@ -1,15 +1,15 @@
-import type { StoryModules, StoryRoute, MarkdownOrStoryModule, StoryComponent, EagerStoryModules } from '../types';
-import { isLazyComponent, isMarkdownStoryModule } from './util';
+import type {
+  StoryModules,
+  StoryRoute,
+  MarkdownOrStoryModule,
+  StoryComponent,
+  EagerStoryModules,
+} from "../types";
+import { isLazyComponent, isMarkdownStoryModule } from "./util";
 
-
-const storiesModules = import.meta.glob('./__TSX_STORIES_PATH__');
-const markdownStoriesModules = import.meta.glob('./__MD_STORIES_PATH__');
-
-// type Modules = {
-//   stories: StoryModules | EagerStoryModules;
-//   [Symbol.iterator](): IterableIterator<[path: string, component: StoryComponent]>;
-//   numberOfStoriesInPath(path: string): number;
-// }
+const storiesModules = import.meta.glob("./__TSX_STORIES_PATH__");
+const markdownStoriesModules = import.meta.glob("./__MD_STORIES_PATH__");
+const storiesPath = "__STORY_PATH__";
 
 class Modules {
   stories: StoryModules | EagerStoryModules;
@@ -18,13 +18,30 @@ class Modules {
     this.stories = stories;
   }
 
-  *[Symbol.iterator](): IterableIterator<[path: string, component: StoryComponent]> {
-    const stories: [string, MarkdownOrStoryModule][] = Object.entries(this.stories);
+  *[Symbol.iterator](): IterableIterator<
+    [path: string, component: StoryComponent]
+  > {
+    const stories: [string, MarkdownOrStoryModule][] = Object.entries(
+      this.stories
+    );
     for (const [realPath, component] of stories) {
-      if (!isLazyComponent(component) && !isMarkdownStoryModule(component) && component.story.path) {
+      if (
+        !isLazyComponent(component) &&
+        !isMarkdownStoryModule(component) &&
+        component.story.path
+      ) {
         yield [component.story.path, component];
       } else {
-        const path = realPath.replace('.story.tsx', '').replace('.story.md', '');
+        let path = realPath
+          .replace(".story.tsx", "")
+          .replace(".story.md", "")
+          .split("/")
+          .filter((p): boolean => ![".", "..", ""].includes(p))
+          .join("/")
+          .substring(storiesPath.length);
+        if (path.startsWith("/")) {
+          path = path.substring(1);
+        }
         yield [path, component];
       }
     }
@@ -43,23 +60,8 @@ class Modules {
 
 const modules = new Modules({
   ...storiesModules,
-  ...markdownStoriesModules
+  ...markdownStoriesModules,
 } as any);
-
-// const modules: Modules = {
-//   stories: {
-//     ...storiesModules,
-//     ...markdownStoriesModules,
-//   },
-//   *[Symbol.iterator]() {
-//     for(let i of this.items) {
-//       yield i;
-//     }
-//   },
-//   numberOfStoriesInPath(path) {
-
-//   }
-// } as any;
 
 export type NestedStoryRoute = Map<string, FirstLevelRoute>;
 
@@ -74,30 +76,9 @@ interface FirstLevelRoute {
 
 export function createRouteTree(): NestedStoryRoute {
   const routes = new Map<string, FirstLevelRoute>();
-  // let moduleEntries: (readonly [string, StoryComponent])[];
-  // // if (isEagerStoryModules(modules)) {
-  // //   moduleEntries = Object.entries(modules).map(([path, module]) => {
-  // //     if (module)
-  // //   })
-  // // } else {
-  // for (const path of modules) {
-    
-  // }
-  // moduleEntries = Object.entries(modules).map(([path, component]) => {
-  //   const relativePath = path
-  //     .replace('.story.tsx', '')
-  //     .replace('.story.md', '');
-  //     // .replace('../src/', '');
-  //   if (!isLazyComponent(component)) {
-  //     component
-
-  //   }
-  //   return [relativePath, loader] as const;
-  // });
-  // }
 
   for (const [path, component] of modules) {
-    const breadcrumbs = path.split('/');
+    const breadcrumbs = path.split("/");
     const storyName = breadcrumbs.pop()!;
     const headname = breadcrumbs[0]!;
     const urlPath = `/${path}`;
@@ -130,7 +111,7 @@ export function createRouteTree(): NestedStoryRoute {
           });
         } else {
           const subfolder = route.subfolders.find(
-            sf => sf.head === subfolderHeadname
+            (sf) => sf.head === subfolderHeadname
           );
           if (subfolder) {
             subfolder.stories.push(storyRoute);
@@ -176,12 +157,14 @@ export function extractAllRoutes(nestedRoutes: NestedStoryRoute): StoryRoute[] {
   const allRoutes: StoryRoute[] = [];
   for (const route of nestedRoutes.values()) {
     const topLevel = route.stories;
-    const subLevel = route.subfolders.map(sf => sf.stories).flat();
+    const subLevel = route.subfolders.map((sf) => sf.stories).flat();
     allRoutes.push(...topLevel, ...subLevel);
   }
   return allRoutes;
 }
 
-function isEagerStoryModules(modules: StoryModules | EagerStoryModules): modules is EagerStoryModules {
-  return typeof Object.values(modules)[0] === 'function';
+function isEagerStoryModules(
+  modules: StoryModules | EagerStoryModules
+): modules is EagerStoryModules {
+  return typeof Object.values(modules)[0] === "function";
 }

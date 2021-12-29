@@ -17,7 +17,7 @@ export const StoryComponent = observer(({ story }: { story: Story }) => {
   const { outputs, action } = useActionOutput();
 
   const renderdStory = story.render && (
-    <DefaultComponentWrapper themeName={darkMode.isDarkMode ? "dark" : "light"}>
+    <DefaultComponentWrapper colorScheme={darkMode.isDarkMode ? "dark" : "light"}>
       {story.render(controls, action)}
     </DefaultComponentWrapper>
   );

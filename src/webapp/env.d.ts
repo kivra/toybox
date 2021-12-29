@@ -1,3 +1,3 @@
 interface ImportMetaEnv {
-  VITE_APP_VERSION: string;
+  TOYBOX_APP_VERSION: string;
 }
