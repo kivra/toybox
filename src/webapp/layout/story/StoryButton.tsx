@@ -54,13 +54,13 @@ const StoryButton = ({
 };
 
 const ButtonImage = styled('img')({
-  borderRadius: '$radius-medium',
+  borderRadius: '8px',
   width: '40px',
   height: '40px',
 });
 
 const ButtonText = styled('div')({
-  borderRadius: '$spacing-8',
+  borderRadius: '8px',
   display: 'flex',
   flexDirection: 'column',
 });
@@ -70,18 +70,18 @@ const ButtonWrapper = styled('a')({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  border: `1px solid ${'$border-distinct'}`,
-  backgroundColor: '!!$white',
-  borderRadius: '$radius-medium',
-  boxShadow: '$shadow-card',
-  paddingLeft: '$spacing-12',
-  paddingRight: '$spacing-20',
+  border: `1px solid #d9d9d9`,
+  backgroundColor: '#fff',
+  borderRadius: '8px',
+  boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.06)',
+  paddingLeft: 12,
+  paddingRight: 20,
   height: '56px',
   transition: 'transform 0.25s cubic-bezier(0.35, 0.35, 0.58, 1)',
   '&:hover': {
     cursor: 'pointer',
-    boxShadow: '$shadow-card',
+    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.06)',
     transform: 'translate3d(0, -2px, 0)',
-    backgroundColor: '$background-tertiary',
+    backgroundColor: '#ffffff',
   },
 });

@@ -21,7 +21,7 @@ export async function createViteServer(config: Config) {
   app.use(server.middlewares);
   app.use('*', async (req, res) => {
     const url = req.originalUrl;
-    const scriptPath = relative(process.cwd(), join(__dirname, '../webapp/index.tsx'));
+    const scriptPath = config.__cutomToyboxEntrypoint || relative(process.cwd(), join(__dirname, '../webapp/index.tsx'));
     const html = await server.transformIndexHtml(url, htmlContent(scriptPath, config));
     res.status(200).set({ "Content-Type": "text/html" }).end(html);
   });
@@ -38,7 +38,7 @@ export async function createViteServer(config: Config) {
     ░░░██║░░░╚█████╔╝░░░██║░░░██████╦╝╚█████╔╝██╔╝╚██╗
     ░░░╚═╝░░░░╚════╝░░░░╚═╝░░░╚═════╝░░╚════╝░╚═╝░░╚═╝`
   );
-  console.log("\x1b[36m%s\x1b[0m", "\n\n Visit http://localhost:3001");
+  console.log("\x1b[36m%s\x1b[0m", "\n\n Visit http://localhost:3000");
 }
 
 const htmlContent = (scriptPath: string, config: Config) => `

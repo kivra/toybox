@@ -1,0 +1,7 @@
+.toybox
+node_modules
+.gitignore
+index.html
+toybox.config.ts
+vite.config.ts
+*.tgz

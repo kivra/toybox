@@ -32,6 +32,11 @@ export interface StoryHeader {
 }
 export interface FullStory {
   header: StoryHeader;
+  /**
+   * Path to be used in the menu.
+   * `eagerLoading` need to be true for toybox config inorder for
+   * this to work.
+   */
   path?: string;
   stories: Story[];
 }
@@ -105,4 +110,10 @@ export interface UserConfig {
    * Emoji icon for the html page
    */
   emojiIcon: string;
+
+  /**
+   * Curom path to toybox entrypoint.
+   * Should only be used for debuging/testing
+   */
+   __cutomToyboxEntrypoint?: string;
 }

@@ -1,9 +1,11 @@
 {
-  "name": "toybox",
+  "name": "@kivra/toybox",
   "version": "1.0.1",
   "description": "",
   "main": "src/public.ts",
-  "bin": "src/cli/cli.ts",
+  "bin": {
+    "toybox": "src/cli/cli.ts"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

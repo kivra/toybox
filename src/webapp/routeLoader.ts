@@ -37,8 +37,10 @@ class Modules {
           .replace(".story.md", "")
           .split("/")
           .filter((p): boolean => ![".", "..", ""].includes(p))
-          .join("/")
-          .substring(storiesPath.length);
+          .join("/");
+        if (path.startsWith(storiesPath)) {
+          path = path.substring(storiesPath.length);
+        }
         if (path.startsWith("/")) {
           path = path.substring(1);
         }

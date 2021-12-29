@@ -31,7 +31,7 @@ export function Navbar({ routes }: Props) {
         </InnerWrapper>
         <CodeWrapper>
           <Code style={{ marginLeft: 16 }}>
-            {import.meta.env.VITE_APP_VERSION}
+            {import.meta.env.TOYBOX_APP_VERSION}
           </Code>
         </CodeWrapper>
       </ScrollWrap>
