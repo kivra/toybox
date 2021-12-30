@@ -12,14 +12,14 @@ export const Body = styled.p<BodyProps>(({ size, color }) => ({
   fontFamily: "'Archivo',sans-serif",
   margin: 0,
   padding: 0,
-  fontSize: size == "small" ? "1.2rem" : "1rem",
-  lineHeight: 1.4,
+  fontSize: size == "small" ? "0.875rem" : "1rem",
+  lineHeight: size == "small" ? "1.25rem" : "1.375rem",
   maxWidth: "600px",
-  color: color == '$text-primary' ? "#212121" : '#AFAFAF',
-}))
+  color: color == "$text-primary" ? "#212121" : "#6A6A6A",
+}));
 
 interface DisplayProps {
-  gutterBottom?: boolean; 
+  gutterBottom?: boolean;
   children: string;
   className?: string;
 }
@@ -33,4 +33,4 @@ export const Display = styled.h1<DisplayProps>(({ gutterBottom }) => ({
   padding: 0,
   fontSize: "3rem",
   marginBottom: gutterBottom ? "1.5rem" : 0,
-}))
+}));
