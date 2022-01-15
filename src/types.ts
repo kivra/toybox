@@ -81,6 +81,11 @@ export interface Config extends UserConfig {
 
 export interface UserConfig {
   /**
+   * Port to use. Will default to 3000
+   */
+  port?: number;
+
+  /**
    * Absolute path to project root.
    * Will default to config path
    */

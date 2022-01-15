@@ -5,27 +5,44 @@ import { getPlugins } from "./vite-plugin";
 import { htmlContent } from "./util";
 
 export async function createViteServer(config: Config) {
+  const port = config.port || 3000;
   const server = await createServer({
     configFile: false,
     root: process.cwd(),
     server: {
-      port: 3000,
-      middlewareMode: 'ssr',
+      port,
+      middlewareMode: "ssr",
     },
     plugins: getPlugins(config),
     clearScreen: false,
-    envPrefix: 'TOYBOX_'
+    envPrefix: "TOYBOX_",
+    optimizeDeps: {
+      include: [
+        "react",
+        "react-dom",
+        "@emotion/css",
+        "@emotion/styled",
+        "@kivra/react-icons",
+        "@mantine/core",
+        "@mantine/prism",
+        "@radix-ui/react-accordion",
+        "markdown-to-jsx",
+        "mobx",
+        "mobx-react-lite",
+        "react-router-dom",
+      ],
+    },
   });
 
   const app = express();
   app.use(server.middlewares);
-  app.use('*', async (req, res) => {
+  app.use("*", async (req, res) => {
     const url = req.originalUrl;
     const html = await server.transformIndexHtml(url, htmlContent(config));
     res.status(200).set({ "Content-Type": "text/html" }).end(html);
   });
 
-  app.listen(3000)
+  app.listen(port);
 
   console.log(
     "\x1b[36m%s\x1b[0m",
@@ -37,5 +54,5 @@ export async function createViteServer(config: Config) {
     ░░░██║░░░╚█████╔╝░░░██║░░░██████╦╝╚█████╔╝██╔╝╚██╗
     ░░░╚═╝░░░░╚════╝░░░░╚═╝░░░╚═════╝░░╚════╝░╚═╝░░╚═╝`
   );
-  console.log("\x1b[36m%s\x1b[0m", "\n\n Visit http://localhost:3000");
+  console.log("\x1b[36m%s\x1b[0m", `\n\n Visit http://localhost:${port}`);
 }

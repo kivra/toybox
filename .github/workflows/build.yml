@@ -27,6 +27,12 @@ jobs:
       - name: 🏗 Build Dependencies
         run: npm rebuild
 
+      - name: ⚙️ Type check
+        run: npx tsc
+
+      - name: ✅ Test
+        run: npx vitest run
+
       - name: 📦 Semantic Release
         uses: cycjimmy/semantic-release-action@v2
         id: semantic

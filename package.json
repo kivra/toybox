@@ -7,7 +7,7 @@
     "toybox": "src/cli/cli.ts"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
@@ -42,7 +42,8 @@
     "@types/react-dom": "17.0.11",
     "@types/react-router-dom": "5.3.2",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "vitest": "0.1.16"
   },
   "volta": {
     "node": "16.13.1"
