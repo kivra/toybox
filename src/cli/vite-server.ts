@@ -2,7 +2,7 @@ import { createServer } from "vite";
 import express from "express";
 import { Config } from "../types";
 import { getPlugins } from "./vite-plugin";
-import { htmlContent } from "./util";
+import { htmlContent, snapshotHtmlContent } from "./util";
 
 export async function createViteServer(config: Config) {
   const port = config.port || 3000;
@@ -36,6 +36,11 @@ export async function createViteServer(config: Config) {
 
   const app = express();
   app.use(server.middlewares);
+  app.get("/snapshot", async (req, res) => {
+    const url = req.originalUrl;
+    const html = await server.transformIndexHtml(url, snapshotHtmlContent());
+    res.status(200).set({ "Content-Type": "text/html" }).end(html);
+  });
   app.use("*", async (req, res) => {
     const url = req.originalUrl;
     const html = await server.transformIndexHtml(url, htmlContent(config));
