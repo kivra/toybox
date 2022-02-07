@@ -9,6 +9,7 @@ const config: Config = {
   },
   title: 'Toybox',
   emojiIcon: '🐒',
+  snapshotWrapperFile: '.toybox/SnappshotWrapper.tsx',
 }
 
 module.exports = config;

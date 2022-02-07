@@ -44,7 +44,7 @@ export const htmlContent = (config: Config) => {
 `;
 };
 
-export const snapshotHtmlContent = () => {
+export const snapshotHtmlContent = (config: Config) => {
   return `
 <!DOCTYPE html>
 
@@ -61,6 +61,7 @@ export const snapshotHtmlContent = () => {
 
   <body>
     <div id="app"></div>
+    ${config.snapshotWrapperFile ? `<script type="module" src="/${config.snapshotWrapperFile}"></script>` : ''}
   </body>
 </html>
 `;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { StoryHeader as StoryHeaderProps } from '../../../types';
-import { StoryHeaderButton } from './StoryButton';
+import { StoryHeaderButton } from './story-button/StoryButton';
 import { Body, Display } from './atom/typo';
 
 export const StoryHeader: React.FC<StoryHeaderProps> = ({

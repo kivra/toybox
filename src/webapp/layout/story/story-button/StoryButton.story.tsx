@@ -1,4 +1,4 @@
-import { Story } from '../../../public';
+import { Story } from '../../../../public';
 import { StoryHeaderButton } from './StoryButton';
 
 export const story: Story = {

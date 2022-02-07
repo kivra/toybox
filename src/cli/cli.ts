@@ -1,4 +1,4 @@
-#!/usr/bin/env node -r tsm
+#!/usr/bin/env -S node -r tsm
 import { createViteServer } from "./vite-server";
 import { buildApp } from "./vite-build";
 import { getConfig } from "./get-config";

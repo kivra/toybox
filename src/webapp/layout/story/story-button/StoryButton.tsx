@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Body } from './atom/typo';
+import { Body } from '../atom/typo';
 
 export interface Props {
   type: 'github' | 'figma';

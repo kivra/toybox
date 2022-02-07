@@ -38,7 +38,7 @@ export async function createViteServer(config: Config) {
   app.use(server.middlewares);
   app.get("/snapshot", async (req, res) => {
     const url = req.originalUrl;
-    const html = await server.transformIndexHtml(url, snapshotHtmlContent());
+    const html = await server.transformIndexHtml(url, snapshotHtmlContent(config));
     res.status(200).set({ "Content-Type": "text/html" }).end(html);
   });
   app.use("*", async (req, res) => {
