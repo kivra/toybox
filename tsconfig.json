@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "module": "es2022",
+    "module": "es2020",
     "jsx": "preserve",
     "sourceMap": true,
     "outDir": "dist",

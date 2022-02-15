@@ -24,12 +24,15 @@ export async function createViteServer(config: Config) {
 
   const app = express();
   app.use(server.middlewares);
-  app.get("/snapshot", async (req, res) => {
+  app.get("/snapshot", async (req, res): Promise<void> => {
     const url = req.originalUrl;
-    const html = await server.transformIndexHtml(url, snapshotHtmlContent(config));
+    const html = await server.transformIndexHtml(
+      url,
+      snapshotHtmlContent(config)
+    );
     res.status(200).set({ "Content-Type": "text/html" }).end(html);
   });
-  app.use("*", async (req, res) => {
+  app.use("*", async (req, res): Promise<void> => {
     const url = req.originalUrl;
     const html = await server.transformIndexHtml(url, htmlContent(config));
     res.status(200).set({ "Content-Type": "text/html" }).end(html);

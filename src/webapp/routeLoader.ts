@@ -7,9 +7,9 @@ import type {
 } from "../types";
 import { isLazyComponent, isMarkdownStoryModule } from "./util";
 
-const storiesModules = import.meta.glob("./__TSX_STORIES_PATH__");
-const markdownStoriesModules = import.meta.glob("./__MD_STORIES_PATH__");
-const storiesPath = "__STORY_PATH__";
+const storiesModules = import.meta.glob("/src/webapp/**/*.story.tsx")
+const markdownStoriesModules = import.meta.glob("/src/webapp/**/*.story.md")
+const storiesPath = "src/webapp";
 
 class Modules {
   stories: StoryModules | EagerStoryModules;
@@ -163,10 +163,4 @@ export function extractAllRoutes(nestedRoutes: NestedStoryRoute): StoryRoute[] {
     allRoutes.push(...topLevel, ...subLevel);
   }
   return allRoutes;
-}
-
-function isEagerStoryModules(
-  modules: StoryModules | EagerStoryModules
-): modules is EagerStoryModules {
-  return typeof Object.values(modules)[0] === "function";
 }
