@@ -16,29 +16,32 @@ export async function createViteServer(config: Config) {
     plugins: getPlugins(config),
     clearScreen: false,
     envPrefix: "TOYBOX_",
-    optimizeDeps: {
-      include: [
-        "react",
-        "react-dom",
-        "@emotion/css",
-        "@emotion/styled",
-        "@kivra/react-icons",
-        "@mantine/core",
-        "@mantine/prism",
-        "@radix-ui/react-accordion",
-        "markdown-to-jsx",
-        "mobx",
-        "mobx-react-lite",
-        "react-router-dom",
-      ],
-    },
+    // optimizeDeps: {
+    //   include: [
+    //     "react",
+    //     "react-dom",
+    //     "@emotion/css",
+    //     "@emotion/styled",
+    //     "@kivra/react-icons",
+    //     "@mantine/core",
+    //     "@mantine/prism",
+    //     "@radix-ui/react-accordion",
+    //     "markdown-to-jsx",
+    //     "mobx",
+    //     "mobx-react-lite",
+    //     "react-router-dom",
+    //   ],
+    // },
   });
 
   const app = express();
   app.use(server.middlewares);
   app.get("/snapshot", async (req, res) => {
     const url = req.originalUrl;
-    const html = await server.transformIndexHtml(url, snapshotHtmlContent(config));
+    const html = await server.transformIndexHtml(
+      url,
+      snapshotHtmlContent(config)
+    );
     res.status(200).set({ "Content-Type": "text/html" }).end(html);
   });
   app.use("*", async (req, res) => {

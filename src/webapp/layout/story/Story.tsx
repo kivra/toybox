@@ -8,7 +8,7 @@ import { CodeTamplete } from "./CodeTemplate";
 import { Controls } from "./control/Controls";
 import { useControl } from "./control/useControl";
 import { useIsDarkMode } from "./control/useIsDarkMode";
-import { DefaultComponentWrapper } from "./DefaultComponentWrapper";
+import { Wrapper as DefaultComponentWrapper } from '../../../../.toybox/Wrapper'
 import { useActionOutput } from "./useActionOutput";
 
 export const StoryComponent = observer(({ story }: { story: Story }) => {
@@ -17,7 +17,9 @@ export const StoryComponent = observer(({ story }: { story: Story }) => {
   const { outputs, action } = useActionOutput();
 
   const renderdStory = story.render && (
-    <DefaultComponentWrapper colorScheme={darkMode.isDarkMode ? "dark" : "light"}>
+    <DefaultComponentWrapper
+      colorScheme={darkMode.isDarkMode ? "dark" : "light"}
+    >
       {story.render(controls, action)}
     </DefaultComponentWrapper>
   );

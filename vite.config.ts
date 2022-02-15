@@ -1,6 +1,5 @@
 import react from "@vitejs/plugin-react";
-import { Plugin } from "vite";
-import { Config } from "../types";
+import { defineConfig, Plugin } from "vite";
 
 function markdownRawPlugin(): Plugin {
   return {
@@ -20,6 +19,4 @@ function markdownRawPlugin(): Plugin {
   };
 }
 
-export function getPlugins(config: Config) {
-  return [react(), markdownRawPlugin()];
-}
+export default defineConfig({ plugins: [react(), markdownRawPlugin()] });

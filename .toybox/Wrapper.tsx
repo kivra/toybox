@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
 interface Props {
   children: JSX.Element;
-  themeName: 'dark' | 'light'
+  colorScheme: "dark" | "light";
 }
 
 export function Wrapper(props: Props) {
-  return <div data-theme-name={props.themeName}>{props.children}</div>
+  return <div data-theme-name={props.colorScheme}>{props.children}</div>;
 }

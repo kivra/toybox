@@ -164,9 +164,3 @@ export function extractAllRoutes(nestedRoutes: NestedStoryRoute): StoryRoute[] {
   }
   return allRoutes;
 }
-
-function isEagerStoryModules(
-  modules: StoryModules | EagerStoryModules
-): modules is EagerStoryModules {
-  return typeof Object.values(modules)[0] === "function";
-}

@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
 interface Props {
   children: JSX.Element;
-  colorScheme?: 'dark' | 'light'
+  colorScheme?: "dark" | "light";
 }
 
-export function DefaultComponentWrapper({ children }: Props): JSX.Element {
+export function Wrapper({ children }: Props): JSX.Element {
   return <div data-default-component-wrapper>{children}</div>;
 }

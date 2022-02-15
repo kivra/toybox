@@ -1,4 +1,4 @@
-import { join, relative } from "path";
+import { dirname, join, relative } from "path";
 import { readFileSync, writeFileSync } from "fs";
 import type { Config } from "../types";
 
@@ -99,6 +99,41 @@ export function updateStoryImportPath(config: Config): void {
   if (config.eagerLoading) {
     code = code.replaceAll("meta.glob", "meta.globEager");
   }
+
+  writeFileSync(filePath, code);
+}
+
+export function updateStoryWrapperImportPath(config: Config): void {
+  let wrapper = config.wrapperComponent;
+
+  const filePath = join(__dirname, "../webapp/layout/story/Story.tsx");
+
+  const importFrom = dirname(filePath);
+
+  let path: string;
+  let componentName: string;
+
+  if (wrapper) {
+    path = wrapper.path;
+    componentName = wrapper.componentName;
+
+    if (wrapper.path.startsWith(".")) {
+      path = relative(importFrom, join(process.cwd(), wrapper.path)).replace(
+        ".tsx",
+        ""
+      );
+    }
+  } else {
+    path = "./DefaultComponentWrapper";
+    componentName = "Wrapper";
+  }
+
+  let code = readFileSync(filePath).toString();
+
+  code = code.replace(
+    /.*as DefaultComponentWrapper.*/,
+    `import { ${componentName} as DefaultComponentWrapper } from '${path}'`
+  );
 
   writeFileSync(filePath, code);
 }
