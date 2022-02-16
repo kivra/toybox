@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join } from "path";
 import { createServer } from "vite";
 import express from "express";
 import { Config } from "../types";
@@ -18,7 +18,21 @@ export async function createViteServer(config: Config) {
     clearScreen: false,
     envPrefix: "TOYBOX_",
     optimizeDeps: {
-      entries: join(__dirname, '../webapp/index.tsx'),
+      entries: [join(process.cwd(), config.storyPath, "**/*.story.tsx")],
+      include: [
+        "react",
+        "react-dom",
+        "@emotion/css",
+        "@emotion/styled",
+        "@kivra/react-icons",
+        "@mantine/core",
+        "@mantine/prism",
+        "@radix-ui/react-accordion",
+        "markdown-to-jsx",
+        "mobx",
+        "mobx-react-lite",
+        "react-router-dom",
+      ],
     },
   });
 

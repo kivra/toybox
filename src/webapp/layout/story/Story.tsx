@@ -8,7 +8,7 @@ import { CodeTamplete } from "./CodeTemplate";
 import { Controls } from "./control/Controls";
 import { useControl } from "./control/useControl";
 import { useIsDarkMode } from "./control/useIsDarkMode";
-import { Wrapper as DefaultComponentWrapper } from '../../../../.toybox/Wrapper'
+import { DefaultComponentWrapper } from "./DefaultComponentWrapper";
 import { useActionOutput } from "./useActionOutput";
 
 export const StoryComponent = observer(({ story }: { story: Story }) => {
