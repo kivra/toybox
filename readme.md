@@ -12,7 +12,7 @@ You will now need to create a cconfig file for toybox. The file must be named `t
 
 ```ts
 // toybox.config.ts
-import type { Config } from "./src/public";
+import type { Config } from "@kivra/toybox";
 
 const config: Config = {
   storyPath: "src",
