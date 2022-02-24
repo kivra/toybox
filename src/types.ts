@@ -90,14 +90,17 @@ export interface UserConfig {
    * Will default to config path
    */
   rootPath: string;
+
   /**
    * Path to search for stories in
    */
   storyPath: string;
+
   /**
    * True if all stories should be pre loaded and compiled
    */
   eagerLoading: boolean;
+
   /**
    * Wrapper component for stories
    */
@@ -120,6 +123,11 @@ export interface UserConfig {
    * Emoji icon for the html page
    */
   emojiIcon: string;
+
+  /**
+   * Build out folder
+   */
+  outDir: string;
 
   /**
    * Curom path to toybox entrypoint.

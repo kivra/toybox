@@ -1,5 +1,4 @@
-import { dirname, join, relative } from "path";
-import { readFileSync, writeFileSync } from "fs";
+import { join, relative } from "path";
 import type { Config } from "../types";
 
 export const htmlContent = (config: Config) => {
@@ -71,69 +70,3 @@ export const snapshotHtmlContent = (config: Config) => {
 </html>
 `;
 };
-
-export function updateStoryImportPath(config: Config): void {
-  const basePath = `/${config.storyPath}`;
-  const filePath = join(__dirname, "../webapp/routeLoader.ts");
-
-  let code = readFileSync(filePath).toString();
-
-  code = code.replace(
-    /const storiesModules = .*/,
-    `const storiesModules = import.meta.glob("${join(
-      basePath,
-      "**/*.story.tsx"
-    )}")`
-  );
-
-  code = code.replace(
-    /const markdownStoriesModules = .*/,
-    `const markdownStoriesModules = import.meta.glob("${join(
-      basePath,
-      "**/*.story.md"
-    )}")`
-  );
-
-  code = code.replace("__STORY_PATH__", config.storyPath);
-
-  if (config.eagerLoading) {
-    code = code.replaceAll("meta.glob", "meta.globEager");
-  }
-
-  writeFileSync(filePath, code);
-}
-
-export function updateStoryWrapperImportPath(config: Config): void {
-  let wrapper = config.wrapperComponent;
-
-  const filePath = join(__dirname, "../webapp/layout/story/Story.tsx");
-
-  const importFrom = dirname(filePath);
-
-  let path: string;
-  let componentName: string;
-
-  if (wrapper) {
-    path = wrapper.path;
-    componentName = wrapper.componentName;
-
-    if (wrapper.path.startsWith(".")) {
-      path = relative(importFrom, join(process.cwd(), wrapper.path)).replace(
-        ".tsx",
-        ""
-      );
-    }
-  } else {
-    path = "./DefaultComponentWrapper";
-    componentName = "Wrapper";
-  }
-
-  let code = readFileSync(filePath).toString();
-
-  code = code.replace(
-    /.*as DefaultComponentWrapper.*/,
-    `import { ${componentName} as DefaultComponentWrapper } from '${path}'`
-  );
-
-  writeFileSync(filePath, code);
-}

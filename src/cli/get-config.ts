@@ -27,6 +27,7 @@ export async function getConfig(customConfigFilePath: string): Promise<Config> {
     emojiIcon: config.emojiIcon || "👾",
     title: config.title || "Components",
     snapshotWrapperFile: config.snapshotWrapperFile,
+    outDir: config.outDir || 'toybox_dist',
     __cutomToyboxEntrypoint: config.__cutomToyboxEntrypoint,
   };
 }
