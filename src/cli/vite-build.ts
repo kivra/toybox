@@ -1,5 +1,5 @@
 import { build } from "vite";
-import { writeFileSync, unlinkSync } from "fs";
+import { writeFileSync, unlinkSync, renameSync } from "fs";
 import { join } from "path";
 import { Config } from "../types";
 import { getPlugins } from "./vite-plugin";
@@ -23,6 +23,10 @@ export async function buildApp(config: Config): Promise<void> {
         },
       },
     });
+    renameSync(
+      join(process.cwd(), config.outDir, tempIndexName),
+      join(process.cwd(), config.outDir, "index.html")
+    );
     unlinkSync(indexFileName);
   } catch (error) {
     unlinkSync(indexFileName);
