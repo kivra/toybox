@@ -9,7 +9,7 @@ interface BodyProps {
 
 export const Body = styled.p<BodyProps>(({ size, color }) => ({
   fontWeight: 400,
-  fontFamily: "'Archivo',sans-serif",
+  fontFamily: "'DM Sans',sans-serif",
   margin: 0,
   padding: 0,
   fontSize: size == "small" ? "0.875rem" : "1rem",
@@ -27,7 +27,7 @@ interface DisplayProps {
 export const Display = styled.h1<DisplayProps>(({ gutterBottom }) => ({
   fontWeight: 700,
   lineHeight: "2.875rem",
-  fontFamily: "'Archivo',sans-serif",
+  fontFamily: "'DM Sans',sans-serif",
   color: "#212121",
   margin: 0,
   padding: 0,
