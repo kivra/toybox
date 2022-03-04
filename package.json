@@ -23,7 +23,6 @@
   "dependencies": {
     "@emotion/css": "11.7.1",
     "@emotion/styled": "11.6.0",
-    "@kivra/react-icons": "4.17.0",
     "@mantine/core": "3.4.3",
     "@mantine/prism": "3.4.3",
     "@radix-ui/react-accordion": "0.1.5",

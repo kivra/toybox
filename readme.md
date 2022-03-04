@@ -4,8 +4,6 @@
 
 ### 🚀 Installing
 
-Make sure you have volta [installed](https://docs.volta.sh/) to get the right node and npm version.
-
 Install the library by running `npm install @kivra/toybox`
 
 You will now need to create a cconfig file for toybox. The file must be named `toybox.config.ts` and be placed in the root folder of your project. All paths will be relative to this file.
