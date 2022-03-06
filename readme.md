@@ -1,12 +1,12 @@
 ## Toybox 🪀
 
-> Library for web ui components
+> Tool for building UI components in isolation, and an easy way to document them.
 
 ### 🚀 Installing
 
 Install the library by running `npm install @kivra/toybox` (it is currently only available on Github [registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry))
 
-You will now need to create a cconfig file for toybox. The file must be named `toybox.config.ts` and be placed in the root folder of your project. All paths will be relative to this file.
+You will now need to create a config file for toybox. The file must be named `toybox.config.ts` and be placed in the root folder of your project. All paths will be relative to this file.
 
 ```ts
 // toybox.config.ts
