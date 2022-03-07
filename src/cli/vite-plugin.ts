@@ -53,6 +53,19 @@ function storyImportPath(config: Config): Plugin {
   };
 }
 
+function updateTitle(config: Config): Plugin {
+  return {
+    name: "update-title",
+    enforce: "pre",
+    transform(code, filePath) {
+      if (!/Navbar\.tsx$/.test(filePath)) {
+        return undefined;
+      }
+      return code.replace("NAVBAR_TITLE", config.title);
+    },
+  };
+}
+
 function storyWrapperImport(config: Config): Plugin {
   return {
     name: "story-wrapper-import",
@@ -64,16 +77,21 @@ function storyWrapperImport(config: Config): Plugin {
         return undefined;
       } else {
         const importFrom = dirname(filePath);
-        const path = relativePath(
-          importFrom,
-          join(process.cwd(), config.wrapperComponent.path)
-        );
+        let path = config.wrapperComponent.path;
+        if (path.startsWith(".")) {
+          path =
+            "./" +
+            relativePath(
+              importFrom,
+              join(process.cwd(), config.wrapperComponent.path)
+            );
+        }
         return code
           .replace(
             "DefaultComponentWrapper",
             `${config.wrapperComponent.componentName} as DefaultComponentWrapper`
           )
-          .replace("./DefaultComponentWrapper", `./${path}`);
+          .replace("./DefaultComponentWrapper", path);
       }
     },
   };
@@ -85,5 +103,6 @@ export function getPlugins(config: Config) {
     markdownRawPlugin(),
     storyImportPath(config),
     storyWrapperImport(config),
+    updateTitle(config),
   ];
 }
