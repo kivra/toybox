@@ -2,7 +2,8 @@ import styled from "@emotion/styled";
 import { css } from "@emotion/css";
 import { Code, Input } from "@mantine/core";
 import * as Accordion from "@radix-ui/react-accordion";
-import { ArrowDownIcon16, SearchIcon16 } from "@kivra/react-icons";
+import { ArrowDownIcon } from "../icons/ArrowDownIcon";
+import { SearchIcon } from "../icons/SearchIcon";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { NestedStoryRoute } from "../routeLoader";
@@ -49,7 +50,7 @@ function MenuItems({ routes }: { routes: NestedStoryRoute }) {
     <>
       <div style={{ margin: "0px 16px 38px 16px" }}>
         <Input
-          icon={<SearchIcon16 color="#6A6A6A" />}
+          icon={<SearchIcon />}
           placeholder="Search"
           radius="md"
           size="md"
@@ -81,7 +82,7 @@ function MenuItems({ routes }: { routes: NestedStoryRoute }) {
                 <AccordionHeader>
                   <AccordionTrigger>
                     <AccordionTitle>{name}</AccordionTitle>
-                    <AccordionIcon color="#6A6A6A" />
+                    <AccordionIcon />
                   </AccordionTrigger>
                 </AccordionHeader>
                 <Accordion.Content>
@@ -210,7 +211,7 @@ const AccordionTitle = styled.h2({
   fontWeight: "normal",
 });
 
-const AccordionIcon = styled(ArrowDownIcon16)({
+const AccordionIcon = styled(ArrowDownIcon)({
   transition: "transform 100ms",
   "[data-state=open] &": { transform: "rotate(180deg)" },
 });

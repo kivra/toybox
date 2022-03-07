@@ -24,7 +24,6 @@ export async function createViteServer(config: Config) {
         "react-dom",
         "@emotion/css",
         "@emotion/styled",
-        "@kivra/react-icons",
         "@mantine/core",
         "@mantine/prism",
         "@radix-ui/react-accordion",
