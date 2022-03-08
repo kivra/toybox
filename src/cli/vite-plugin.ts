@@ -66,6 +66,19 @@ function updateTitle(config: Config): Plugin {
   };
 }
 
+function updateGitHubProjectUrl(config: Config): Plugin {
+  return {
+    name: "update-github-project-url",
+    enforce: "pre",
+    transform(code, filePath) {
+      if (!/ModuleComponent\.tsx$/.test(filePath)) {
+        return undefined;
+      }
+      return code.replace("GITHUB_PROJECT_URL", config.githubProjectUrl);
+    },
+  };
+}
+
 function storyWrapperImport(config: Config): Plugin {
   return {
     name: "story-wrapper-import",
@@ -104,5 +117,6 @@ export function getPlugins(config: Config) {
     storyImportPath(config),
     storyWrapperImport(config),
     updateTitle(config),
+    updateGitHubProjectUrl(config),
   ];
 }

@@ -11,7 +11,9 @@ export type MarkdownOrStoryModule = StoryModule | MarkdownStoryModule;
 export type StoryModule = { story: FullStory };
 export type MarkdownStoryModule = { default: string };
 
-export type StoryComponent = (() => Promise<MarkdownOrStoryModule>) | MarkdownOrStoryModule;
+export type StoryComponent =
+  | (() => Promise<MarkdownOrStoryModule>)
+  | MarkdownOrStoryModule;
 
 export interface StoryRoute {
   urlPath: string;
@@ -19,7 +21,7 @@ export interface StoryRoute {
   component: StoryComponent;
 }
 
-type StoryButtonTypes = 'github' | 'figma';
+type StoryButtonTypes = "github" | "figma";
 
 export interface StoryButton {
   type: StoryButtonTypes;
@@ -47,13 +49,13 @@ export interface Story {
    * `configurator` will show a configurator beside the story
    * `fullsize` will show the story without any configurator.
    */
-  type?: 'fullsize' | 'configurator';
+  type?: "fullsize" | "configurator";
   center?: boolean;
   information?: string;
   codeTemplate?: CodeTemplateFn;
   render?: (
     controls: ReturnType<
-      typeof import('./webapp/layout/story/control/useControl').useControl
+      typeof import("./webapp/layout/story/control/useControl").useControl
     >,
     action: (name: string) => (...args: any[]) => void
   ) => JSX.Element;
@@ -107,7 +109,7 @@ export interface UserConfig {
   wrapperComponent?: {
     path: string;
     componentName: string;
-  }
+  };
 
   /**
    * Wrapper setup for snapshot tests
@@ -133,5 +135,11 @@ export interface UserConfig {
    * Curom path to toybox entrypoint.
    * Should only be used for debuging/testing
    */
-   __cutomToyboxEntrypoint?: string;
+  __cutomToyboxEntrypoint?: string;
+
+  /**
+   * Base path to GitHub project
+   * I.e: https://github.com/kivra/react-components
+   */
+  githubProjectUrl: string;
 }
