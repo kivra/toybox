@@ -1,12 +1,12 @@
-import { Center, Loader } from '@mantine/core';
-import { useEffect, useState } from 'react';
-import styled from '@emotion/styled';
-import type { MarkdownOrStoryModule, StoryRoute } from '../types';
-import { MarkdownStory } from './layout/story/MarkdownStory';
-import { StoryComponent } from './layout/story/Story';
-import { StoryHeader } from './layout/story/StoryHeader';
-import { ErrorBoundary } from './layout/error-boundary/ErrorBoundary';
-import { isLazyComponent, isMarkdownStoryModule } from './util';
+import { Center, Loader } from "@mantine/core";
+import { useEffect, useState } from "react";
+import styled from "@emotion/styled";
+import type { MarkdownOrStoryModule, StoryRoute } from "../types";
+import { MarkdownStory } from "./layout/story/MarkdownStory";
+import { StoryComponent } from "./layout/story/Story";
+import { StoryHeader } from "./layout/story/StoryHeader";
+import { ErrorBoundary } from "./layout/error-boundary/ErrorBoundary";
+import { isLazyComponent, isMarkdownStoryModule } from "./util";
 
 export function ModuleComponent({
   route,
@@ -17,7 +17,7 @@ export function ModuleComponent({
 
   useEffect(() => {
     if (isLazyComponent(route.component)) {
-      route.component().then(m => setStoryModule(m));
+      route.component().then((m) => setStoryModule(m));
     } else {
       setStoryModule(route.component);
     }
@@ -39,7 +39,7 @@ export function ModuleComponent({
       </MainInnerWrapper>
     );
   } else {
-    const fullStory = storyModule['story'];
+    const fullStory = storyModule["story"];
     if (!fullStory) {
       return null;
     }
@@ -48,8 +48,8 @@ export function ModuleComponent({
       stories,
     } = fullStory;
 
-    const buttons = storyButtons?.map(button => {
-      if (button.type === 'github') {
+    const buttons = storyButtons?.map((button) => {
+      if (button.type === "github") {
         return {
           ...button,
           url: button.url || generateGithubUrl(route.urlPath),
@@ -78,11 +78,11 @@ export function ModuleComponent({
 }
 
 function generateGithubUrl(storyPath: string) {
-  return `https://github.com/kivra/react-components/blob/main/src${storyPath}.tsx`;
+  return `GITHUB_PROJECT_URL/blob/main/src${storyPath}.tsx`;
 }
 
-const MainInnerWrapper = styled('div')({
-  maxWidth: '1280px',
-  padding: '0 40px',
-  margin: '0 auto',
+const MainInnerWrapper = styled("div")({
+  maxWidth: "1280px",
+  padding: "0 40px",
+  margin: "0 auto",
 });
