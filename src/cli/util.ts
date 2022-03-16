@@ -3,8 +3,7 @@ import type { Config } from "../types";
 
 export const htmlContent = (config: Config) => {
   const scriptPath =
-    config.__cutomToyboxEntrypoint ||
-    relative(process.cwd(), join(__dirname, "../webapp/index.tsx"));
+    config.__cutomToyboxEntrypoint || join(__dirname, "../webapp/index.tsx");
   return `
 <!DOCTYPE html>
 
@@ -37,7 +36,7 @@ export const htmlContent = (config: Config) => {
     <div id="app"></div>
     <script
       type="module"
-      src="/${scriptPath}"
+      src="${scriptPath}"
     ></script>
   </body>
 </html>
