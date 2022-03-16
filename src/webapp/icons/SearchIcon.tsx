@@ -13,13 +13,13 @@ export function SearchIcon() {
     >
       <path
         d="M15 15l-3.733-3.733"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
+        strokeMiterlimit="10"
+        strokeLinecap="round"
       ></path>
       <path
         d="M7 13A6 6 0 107 1a6 6 0 000 12z"
-        stroke-miterlimit="10"
-        stroke-linecap="square"
+        strokeMiterlimit="10"
+        strokeLinecap="square"
       ></path>
     </svg>
   );

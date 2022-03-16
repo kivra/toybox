@@ -14,9 +14,9 @@ export function ArrowDownIcon({ className }: { className?: string }) {
     >
       <path
         d="M13 5.5L8 10.5L3 5.5"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeMiterlimit="10"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       ></path>
     </svg>
   );
