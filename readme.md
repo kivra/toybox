@@ -105,5 +105,5 @@ export const story: Story = {
 
 ### 🧞 Commands
 
-- `npx toybox`: Start preview of toybox.
+- `npx toybox`: Start a preview of toybox.
 - `npx toybox build`: Build a static version of toybox. The new files will be placed in `toybox_dist`
