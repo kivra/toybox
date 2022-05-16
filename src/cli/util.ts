@@ -19,6 +19,10 @@ export const htmlContent = (config: Config) => {
       href="https://static.kivra.com/assets/fonts/dm-sans/dm-sans.css"
       rel="stylesheet"
     />
+    <link
+      href="https://static.kivra.com/assets/fonts/kivra-sans/kivra-sans.css"
+      rel="stylesheet"
+    />
 
     <title>${config.title}</title>
     <style>
