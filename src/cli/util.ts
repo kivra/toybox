@@ -16,11 +16,7 @@ export const htmlContent = (config: Config) => {
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${config.emojiIcon}</text></svg>"
     />
     <link
-      href="https://static.kivra.com/assets/fonts/dm-sans/dm-sans.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://static.kivra.com/assets/fonts/kivra-sans/kivra-sans.css"
+      href="https://static.kivra.com/assets/fonts/fonts.css"
       rel="stylesheet"
     />
 
