@@ -287,7 +287,7 @@ const Overline = styled.h3({
  * Title of the application, eg. React Components
  */
 const Title = styled.h1({
-  fontFamily: "'Kivra Sans', sans-serif",
+  fontFamily: "'Kivra Sans', 'DM Sans', sans-serif",
   fontWeight: "bold",
   fontSize: 20,
   letterSpacing: 0.1,

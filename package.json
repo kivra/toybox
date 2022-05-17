@@ -1,6 +1,6 @@
 {
   "name": "@kivra/toybox",
-  "version": "1.3.10-alpha.2",
+  "version": "1.0.1",
   "description": "",
   "main": "src/public.ts",
   "bin": {
