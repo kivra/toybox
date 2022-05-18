@@ -27,7 +27,7 @@ interface DisplayProps {
 export const Display = styled.h1<DisplayProps>(({ gutterBottom }) => ({
   fontWeight: 700,
   lineHeight: "2.875rem",
-  fontFamily: "'DM Sans',sans-serif",
+  fontFamily: "'Kivra Sans', 'DM Sans', sans-serif",
   color: "#212121",
   margin: 0,
   padding: 0,
