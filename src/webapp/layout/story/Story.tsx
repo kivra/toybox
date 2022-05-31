@@ -28,9 +28,13 @@ export const StoryComponent = observer(({ story }: { story: Story }) => {
     return renderdStory || <p>No render function was provided for the story</p>;
   }
 
+  const sectionId = encodeURIComponent(story?.name ?? "");
+
   return (
     <Wrapper>
-      <StoryTitle order={3}>{story.name}</StoryTitle>
+      <SectionAnchor id={sectionId}>
+        <StoryTitle order={3}>{story.name}</StoryTitle>
+      </SectionAnchor>
       {story.information && (
         <div style={{ marginBottom: 32 }}>
           <Markdown children={story.information} />
@@ -95,3 +99,19 @@ const ControlsWrapper = styled.div`
   box-sizing: border-box;
   border-left: 1px solid #f1f3f5;
 `;
+
+const SectionAnchor: React.FC<{ id: string }> = ({ id, children }) =>
+  id !== "" ? (
+    <a
+      href={`#${id}`}
+      id={id}
+      style={{
+        color: "inherit",
+        textDecoration: "inherit",
+      }}
+    >
+      {children}
+    </a>
+  ) : (
+    <>{children}</>
+  );
