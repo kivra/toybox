@@ -28,7 +28,7 @@ export async function getConfig(customConfigFilePath: string): Promise<Config> {
     title: config.title || "Components",
     snapshotWrapperFile: config.snapshotWrapperFile,
     outDir: config.outDir || "toybox_dist",
-    __cutomToyboxEntrypoint: config.__cutomToyboxEntrypoint,
+    __customToyboxEntrypoint: config.__customToyboxEntrypoint,
     githubProjectUrl: config.githubProjectUrl!,
   };
 }
