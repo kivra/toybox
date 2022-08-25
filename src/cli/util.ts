@@ -3,7 +3,7 @@ import type { Config } from "../types";
 
 export const htmlContent = (config: Config) => {
   const scriptPath =
-    config.__cutomToyboxEntrypoint || join(__dirname, "../webapp/index.tsx");
+    config.__customToyboxEntrypoint || join(__dirname, "../webapp/index.tsx");
   return `
 <!DOCTYPE html>
 

@@ -76,7 +76,7 @@ export type CodeTemplateFn = (
 
 export interface Config extends UserConfig {
   /**
-   * Absolut path to toybox
+   * Absolute path to toybox
    */
   toyboxRootPath: string;
 }
@@ -132,14 +132,14 @@ export interface UserConfig {
   outDir: string;
 
   /**
-   * Curom path to toybox entrypoint.
-   * Should only be used for debuging/testing
+   * Custom path to toybox entrypoint.
+   * Should only be used for debugging/testing
    */
-  __cutomToyboxEntrypoint?: string;
+  __customToyboxEntrypoint?: string;
 
   /**
    * Base path to GitHub project
-   * I.e: https://github.com/kivra/react-components
+   * E.g. https://github.com/kivra/react-components
    */
   githubProjectUrl: string;
 }

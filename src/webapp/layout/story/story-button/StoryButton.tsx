@@ -40,7 +40,7 @@ const StoryButton = ({
   url: string;
 }) => {
   return (
-    <ButtonWrapper href={url} target="_blank">
+    <ButtonWrapper href={url} target="_blank" rel="noopener noreferrer">
       <ButtonImage src={imgSrc} />
       <div style={{ marginRight: 12 }} />
       <ButtonText>
