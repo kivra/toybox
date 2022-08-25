@@ -16,7 +16,6 @@ export async function buildApp(config: Config): Promise<void> {
       plugins: getPlugins(config),
       clearScreen: false,
       envPrefix: "TOYBOX_",
-      base: "",
       build: {
         outDir: config.outDir,
         rollupOptions: {
