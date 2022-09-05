@@ -43,14 +43,19 @@ export const story: Story = {
   header: {
     // Title of story
     title: 'Button',
-    // Two different types of buttons are available, github or figma
+    // Three different types of buttons are available, github, figma or designsystem.
     // Url for github type is optional, we will try to generate a url based on the component name. You could also give it a value if you prefer.
     // Figma url is a link to the design of the component.
+    // designsystem is our documentation helper that gives developers more detailed documentation of the component.
     storyButtons: [
       { type: 'github' },
       {
         type: 'figma',
         url: 'https://www.figma.com/file/cqWQxzXlhuLc5SRXemxy4F/Kivra-Style-Guide?node-id=20746%3A39897',
+      },
+      {
+        type: 'designsystem'
+        url: 'https://design.kivra.com/07ebba6a7/p/91f64e-intro',
       },
     ],
     // Description of the component

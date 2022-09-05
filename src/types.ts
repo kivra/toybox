@@ -21,7 +21,7 @@ export interface StoryRoute {
   component: StoryComponent;
 }
 
-type StoryButtonTypes = "github" | "figma";
+type StoryButtonTypes = "github" | "figma" | "designsystem";
 
 export interface StoryButton {
   type: StoryButtonTypes;

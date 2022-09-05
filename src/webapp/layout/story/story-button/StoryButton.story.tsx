@@ -11,15 +11,22 @@ export const story: Story = {
       name: 'Github',
       center: true,
       render() {
-        return <StoryHeaderButton type="github" url="https://google.com" />
+        return <StoryHeaderButton type="github" url="https://github.com" />
       }
     },
     {
-      name: 'Figma ',
+      name: 'Figma',
       center: true,
       render() {
-        return <StoryHeaderButton type="figma" url="https://google.com" />
+        return <StoryHeaderButton type="figma" url="https://figma.com" />
       }
-    }
+    },
+    {
+      name: 'Kivra Design System',
+      center: true,
+      render() {
+        return <StoryHeaderButton type="designsystem" url="https://design.kivra.com/" />
+      }
+    },
   ]
 }

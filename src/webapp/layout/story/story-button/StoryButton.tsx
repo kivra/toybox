@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { Body } from '../atom/typo';
 
 export interface Props {
-  type: 'github' | 'figma';
+  type: 'github' | 'figma' | 'designsystem';
   url: string;
 }
 
@@ -17,15 +17,25 @@ export const StoryHeaderButton: React.FC<Props> = ({ type, url }) => {
         description="GitHub"
       />
     );
+  } else if (type === 'designsystem') {
+    return (
+      <StoryButton
+        url={url}
+        imgSrc="https://static.kivra.com/assets/logo/kivra-symbol-logo.svg"
+        title="View documentation"
+        description="Kivra Design System"
+      />
+    );
+  } else {
+    return (
+      <StoryButton
+        url={url}
+        imgSrc="https://static.kivra.com/assets/logo/figma-logo.svg"
+        title="View guidelines"
+        description="Figma"
+      />
+    );
   }
-  return (
-    <StoryButton
-      url={url}
-      imgSrc="https://static.kivra.com/assets/logo/figma-logo.svg"
-      title="View guidelines"
-      description="Figma"
-    />
-  );
 };
 
 const StoryButton = ({
