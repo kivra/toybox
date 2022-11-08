@@ -1,9 +1,23 @@
-import { join } from "path";
+import path, { join } from "path";
 import { createServer } from "vite";
 import express from "express";
 import { Config } from "../types";
 import { getPlugins } from "./vite-plugin";
 import { htmlContent, snapshotHtmlContent } from "./util";
+
+const PRELOADED_DEPENDENCIES = [
+  "react",
+  "react-dom",
+  "@emotion/css",
+  "@emotion/styled",
+  "@mantine/core",
+  "@mantine/prism",
+  "@radix-ui/react-accordion",
+  "markdown-to-jsx",
+  "mobx",
+  "mobx-react-lite",
+  "react-router-dom",
+];
 
 export async function createViteServer(config: Config) {
   const port = config.port || 3000;
@@ -19,19 +33,18 @@ export async function createViteServer(config: Config) {
     envPrefix: "TOYBOX_",
     optimizeDeps: {
       entries: [join(process.cwd(), config.storyPath, "**/*.story.tsx")],
-      include: [
-        "react",
-        "react-dom",
-        "@emotion/css",
-        "@emotion/styled",
-        "@mantine/core",
-        "@mantine/prism",
-        "@radix-ui/react-accordion",
-        "markdown-to-jsx",
-        "mobx",
-        "mobx-react-lite",
-        "react-router-dom",
-      ],
+      include: PRELOADED_DEPENDENCIES,
+    },
+    resolve: {
+      alias: PRELOADED_DEPENDENCIES.reduce<{ [dep: string]: string }>(
+        (object, dep) => {
+          try {
+            object[dep] = path.dirname(require.resolve(`${dep}/package.json`));
+          } catch {}
+          return object;
+        },
+        {}
+      ),
     },
   });
 
