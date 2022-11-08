@@ -7,7 +7,7 @@ function markdownRawPlugin(): Plugin {
   return {
     name: "markdown-raw-plugin",
     transform(code, filePath) {
-      if (/\.(md)$/.test(filePath)) {
+      if (/\.(md)/.test(filePath)) {
         const json = JSON.stringify(code)
           .replace(/\u2028/g, "\\u2028")
           .replace(/\u2029/g, "\\u2029");
@@ -26,7 +26,7 @@ function storyImportPath(config: Config): Plugin {
     name: "story-import-path",
     enforce: "pre",
     transform(code, filePath) {
-      if (!/routeLoader\.ts$/.test(filePath)) {
+      if (!/routeLoader\.ts/.test(filePath)) {
         return undefined;
       }
 
@@ -58,7 +58,7 @@ function updateTitle(config: Config): Plugin {
     name: "update-title",
     enforce: "pre",
     transform(code, filePath) {
-      if (!/Navbar\.tsx$/.test(filePath)) {
+      if (!/Navbar\.tsx/.test(filePath)) {
         return undefined;
       }
       return code.replace("NAVBAR_TITLE", config.title);
@@ -71,7 +71,7 @@ function updateGitHubProjectUrl(config: Config): Plugin {
     name: "update-github-project-url",
     enforce: "pre",
     transform(code, filePath) {
-      if (!/ModuleComponent\.tsx$/.test(filePath)) {
+      if (!/ModuleComponent\.tsx/.test(filePath)) {
         return undefined;
       }
       return code.replace("GITHUB_PROJECT_URL", config.githubProjectUrl);
@@ -84,7 +84,7 @@ function storyWrapperImport(config: Config): Plugin {
     name: "story-wrapper-import",
     enforce: "pre",
     transform(code, filePath) {
-      if (!/Story\.tsx$/.test(filePath)) {
+      if (!/Story\.tsx/.test(filePath)) {
         return undefined;
       } else if (!config.wrapperComponent) {
         return undefined;
