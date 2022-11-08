@@ -1,7 +1,7 @@
 import React, { ErrorInfo } from "react";
 import { ErrorView } from "./ErrorView";
 
-type Props = {};
+type Props = { children?: React.ReactNode };
 type State = { error?: Error; errorInfo?: ErrorInfo };
 
 export class ErrorBoundary extends React.Component<Props, State> {

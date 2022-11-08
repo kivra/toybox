@@ -100,7 +100,10 @@ const ControlsWrapper = styled.div`
   border-left: 1px solid #f1f3f5;
 `;
 
-const SectionAnchor: React.FC<{ id: string }> = ({ id, children }) =>
+const SectionAnchor: React.FC<{ id: string; children?: React.ReactNode }> = ({
+  id,
+  children,
+}) =>
   id !== "" ? (
     <a
       href={`#${id}`}
