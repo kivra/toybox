@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/css";
-import { Code, Input, MediaQuery } from "@mantine/core";
+import { Code, Input } from "@mantine/core";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ArrowDownIcon } from "../icons/ArrowDownIcon";
 import { SearchIcon } from "../icons/SearchIcon";
