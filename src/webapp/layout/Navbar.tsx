@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/css";
-import { Code, Input } from "@mantine/core";
+import { Code, Input, MediaQuery } from "@mantine/core";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ArrowDownIcon } from "../icons/ArrowDownIcon";
 import { SearchIcon } from "../icons/SearchIcon";
@@ -10,9 +10,10 @@ import { NestedStoryRoute } from "../routeLoader";
 
 interface Props {
   routes: NestedStoryRoute;
+  onItemClick: () => void;
 }
 
-export function Navbar({ routes }: Props) {
+export function Navbar({ routes, onItemClick }: Props) {
   return (
     <Wrapper>
       <ScrollWrap>
@@ -24,7 +25,7 @@ export function Navbar({ routes }: Props) {
           <Title>NAVBAR_TITLE</Title>
         </TopWrap>
         <InnerWrapper>
-          <MenuItems routes={routes} />
+          <MenuItems routes={routes} onItemClick={onItemClick} />
         </InnerWrapper>
         <CodeWrapper>
           <Code style={{ marginLeft: 16 }}>
@@ -36,7 +37,7 @@ export function Navbar({ routes }: Props) {
   );
 }
 
-function MenuItems({ routes }: { routes: NestedStoryRoute }) {
+function MenuItems({ routes, onItemClick }: Props) {
   const {
     accordionValues,
     activeStoryUrl,
@@ -102,6 +103,7 @@ function MenuItems({ routes }: { routes: NestedStoryRoute }) {
                               activeLink={activeLink}
                             >
                               <MenuItem
+                                onClick={onItemClick}
                                 to={story.urlPath}
                                 style={{ padding: "10px 0 10px 28px" }}
                                 activeLink={activeLink}
@@ -123,6 +125,7 @@ function MenuItems({ routes }: { routes: NestedStoryRoute }) {
                         activeLink={activeLink}
                       >
                         <MenuItem
+                          onClick={onItemClick}
                           key={story.urlPath}
                           to={story.urlPath}
                           activeLink={activeStoryUrl === story.urlPath}
@@ -217,11 +220,16 @@ const AccordionIcon = styled(ArrowDownIcon)({
 });
 
 const Wrapper = styled.div({
+  zIndex: 150,
   gridArea: "Menu",
   backgroundColor: "white",
   borderRight: "1px solid #e9ecef",
   position: "relative",
   boxShadow: "inset -5px -26px 24px -2px rgb(0 0 0 / 8%)",
+  "@media (max-width: 960px)": {
+    position: "fixed",
+    left: "0",
+  },
 });
 
 const ScrollWrap = styled.div({

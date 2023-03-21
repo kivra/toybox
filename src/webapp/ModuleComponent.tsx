@@ -85,4 +85,7 @@ const MainInnerWrapper = styled("div")({
   maxWidth: "1280px",
   padding: "0 40px",
   margin: "0 auto",
+  "@media (max-width: 960px)": {
+    padding: "0 20px",
+  },
 });
