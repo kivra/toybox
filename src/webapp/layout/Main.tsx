@@ -21,33 +21,41 @@ export function Main({ routes, children }: Props) {
   }, [isSmallScreen]);
   return (
     <Container>
-      <Burger
-        opened={hamburgerOpen}
-        onClick={() => setHamburgerOpen(!hamburgerOpen)}
-      />
+      <BurgerWrapper>
+        <MantineBurger
+          size="sm"
+          opened={hamburgerOpen}
+          onClick={() => setHamburgerOpen(!hamburgerOpen)}
+        />
+      </BurgerWrapper>
       {(!isSmallScreen || hamburgerOpen) && (
         <Navbar onItemClick={() => setHamburgerOpen(false)} routes={routes} />
       )}
+      {hamburgerOpen && <Overlay />}
       <MainContent>{children}</MainContent>
     </Container>
   );
 }
-
-const Burger = styled(MantineBurger)({
+const BurgerWrapper = styled.div({
   display: "none",
   "@media (max-width: 960px)": {
-    zIndex: 100,
+    border: `1px solid #d9d9d9`,
+    backgroundColor: "#fff",
+    borderRadius: "8px",
+    boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.06)",
+    zIndex: 2000,
     position: "absolute",
-    top: "24px",
-    right: "24px",
+    top: "28px",
+    right: "16px",
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
-    padding: "0px",
+    padding: "2px",
   },
 });
 
 const Container = styled.div`
+  position: relative;
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-rows: auto 1fr;
@@ -58,7 +66,17 @@ const Container = styled.div`
     "Menu Main";
   min-height: 100vh;
 `;
+
 const MainContent = styled.main`
   grid-area: Main;
   overflow: hidden;
+`;
+
+const Overlay = styled.div`
+  inset: 0px;
+  z-index: 1074;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 1;
+  transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 `;

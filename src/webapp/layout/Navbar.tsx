@@ -220,7 +220,7 @@ const AccordionIcon = styled(ArrowDownIcon)({
 });
 
 const Wrapper = styled.div({
-  zIndex: 150,
+  zIndex: 1075,
   gridArea: "Menu",
   backgroundColor: "white",
   borderRight: "1px solid #e9ecef",
