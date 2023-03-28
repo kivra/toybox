@@ -31,7 +31,7 @@ export function Main({ routes, children }: Props) {
       {(!isSmallScreen || hamburgerOpen) && (
         <Navbar onItemClick={() => setHamburgerOpen(false)} routes={routes} />
       )}
-      {hamburgerOpen && <Overlay />}
+      {hamburgerOpen && <Overlay onClick={() => setHamburgerOpen(false)} />}
       <MainContent>{children}</MainContent>
     </Container>
   );
@@ -73,9 +73,10 @@ const MainContent = styled.main`
 `;
 
 const Overlay = styled.div`
-  inset: 0px;
   z-index: 1074;
   position: absolute;
+  width: 100%;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
   opacity: 1;
   transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
