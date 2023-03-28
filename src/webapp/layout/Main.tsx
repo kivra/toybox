@@ -54,6 +54,16 @@ const BurgerWrapper = styled.div({
   },
 });
 
+const Overlay = styled.div`
+  z-index: 1074;
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 1;
+  transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+`;
+
 const Container = styled.div`
   position: relative;
   display: grid;
@@ -70,14 +80,4 @@ const Container = styled.div`
 const MainContent = styled.main`
   grid-area: Main;
   overflow: hidden;
-`;
-
-const Overlay = styled.div`
-  z-index: 1074;
-  position: absolute;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  opacity: 1;
-  transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 `;
