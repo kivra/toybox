@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import { Story } from "../../../types";
 import { Markdown } from "./atom/Markdown";
 import { ActionOutput } from "./ActionOutput";
-import { CodeTamplete } from "./CodeTemplate";
+import { CodeTemplate } from "./CodeTemplate";
 import { Controls } from "./control/Controls";
 import { useControl } from "./control/useControl";
 import { useIsDarkMode } from "./control/useIsDarkMode";
@@ -57,7 +57,7 @@ export const StoryComponent = observer(({ story }: { story: Story }) => {
             </ControlsWrapper>
           </Configurator>
           {story.codeTemplate && (
-            <CodeTamplete
+            <CodeTemplate
               codeTemplate={story.codeTemplate}
               controls={controls}
             />
@@ -74,18 +74,21 @@ const StoryTitle = styled(Title)`
   margin-bottom: 12px !important;
 `;
 
-const Wrapper = styled.div`
-  margin-top: 12px;
-  margin-bottom: 36px;
-`;
+const Wrapper = styled("div")({
+  marginTop: "12px",
+  marginBottom: "36px",
+});
 
-const Configurator = styled.div`
-  border: 1px solid #f1f3f5;
-  display: flex;
-  max-width: 100%;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-`;
+const Configurator = styled("div")({
+  border: "1px solid #f1f3f5",
+  display: "flex",
+  maxWidth: "100%",
+  borderTopLeftRadius: "4px",
+  borderTopRightRadius: "4px",
+  "@media (max-width: 960px)": {
+    flexDirection: "column",
+  },
+});
 
 const Prewview = styled.div`
   flex: 1;
@@ -93,12 +96,17 @@ const Prewview = styled.div`
   background: rgb(255, 255, 255);
 `;
 
-const ControlsWrapper = styled.div`
-  width: 250px;
-  padding: 16px;
-  box-sizing: border-box;
-  border-left: 1px solid #f1f3f5;
-`;
+const ControlsWrapper = styled("div")({
+  width: "250px",
+  padding: "16px",
+  boxSizing: "border-box",
+  borderLeft: "1px solid #f1f3f5",
+  "@media (max-width: 960px)": {
+    width: "100%",
+    borderLeft: "none",
+    borderTop: "1px solid #f1f3f5",
+  },
+});
 
 const SectionAnchor: React.FC<{ id: string; children?: React.ReactNode }> = ({
   id,
