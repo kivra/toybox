@@ -1,0 +1,4 @@
+{
+  "extends": ["github>kivra/kivra_fe_config//renovate/base"],
+  "baseBranches": ["main"]
+}
