@@ -16,6 +16,7 @@ jobs:
         uses: kivra/github_actions/setup-node@v2.3.2
         with:
           node-version: "16.13.1"
+          NPM_AUTH_TOKEN: ${{ secrets.READ_PACKAGES_WEB }}
 
       - name: ⬇️ Install Dependencies
         run: npm ci
