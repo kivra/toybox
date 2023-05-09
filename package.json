@@ -23,8 +23,8 @@
   "dependencies": {
     "@emotion/css": "11.11.0",
     "@emotion/styled": "11.11.0",
-    "@mantine/core": "5.7.1",
-    "@mantine/prism": "5.7.1",
+    "@mantine/core": "6.0.10",
+    "@mantine/prism": "6.0.10",
     "@radix-ui/react-accordion": "1.1.1",
     "@types/express": "4.17.17",
     "@vitejs/plugin-react": "4.0.0",
