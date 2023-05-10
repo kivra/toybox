@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: ⚙️ Use Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: "16.13.1"
           registry-url: "https://npm.pkg.github.com"
@@ -28,10 +28,10 @@ jobs:
         run: npx vitest run
 
       - name: 📦 Semantic Release
-        uses: cycjimmy/semantic-release-action@v2
+        uses: cycjimmy/semantic-release-action@v3
         id: semantic
         with:
-          semantic_version: 17.3.7
+          semantic_version: 19.0.5
           branches: |
             ['main']
         env:
