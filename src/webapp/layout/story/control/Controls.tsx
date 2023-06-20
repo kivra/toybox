@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Switch, Text, Button, ActionIcon } from "@mantine/core";
+import { Switch, Text, Button, ActionIcon, Tooltip } from "@mantine/core";
 import { action } from "mobx";
 import { observer } from "mobx-react-lite";
 import { Fragment } from "react";
@@ -23,17 +23,19 @@ export const Controls = observer(({ controls, darkMode, sectionId }: Props) => {
   return (
     <>
       <HelpActions>
-        <ActionIcon
-          onClick={() => {
-            const resetEl = document.getElementById(`reset-${sectionId}`);
-            if (resetEl) {
-              resetEl.focus();
-            }
-          }}
-          size="lg"
-        >
-          <FocusCentered color="black" />
-        </ActionIcon>
+        <Tooltip withArrow arrowPosition="center" label="Reset focus">
+          <ActionIcon
+            onClick={() => {
+              const resetEl = document.getElementById(`reset-${sectionId}`);
+              if (resetEl) {
+                resetEl.focus();
+              }
+            }}
+            size="lg"
+          >
+            <FocusCentered color="black" />
+          </ActionIcon>
+        </Tooltip>
       </HelpActions>
       <Switch
         label="Darkmode"
