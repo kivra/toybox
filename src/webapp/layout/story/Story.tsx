@@ -46,6 +46,7 @@ export const StoryComponent = observer(({ story }: { story: Story }) => {
             <Prewview
               style={{ background: darkMode.isDarkMode ? "#000" : "#fff" }}
             >
+              <ResetPoint tabIndex={-1} id={`reset-${sectionId}`} />
               {story.center ? (
                 <Center style={{ height: "100%" }}>{renderdStory}</Center>
               ) : (
@@ -53,7 +54,11 @@ export const StoryComponent = observer(({ story }: { story: Story }) => {
               )}
             </Prewview>
             <ControlsWrapper>
-              <Controls controls={controls} darkMode={darkMode} />
+              <Controls
+                sectionId={sectionId}
+                controls={controls}
+                darkMode={darkMode}
+              />
             </ControlsWrapper>
           </Configurator>
           {story.codeTemplate && (
@@ -68,6 +73,24 @@ export const StoryComponent = observer(({ story }: { story: Story }) => {
     </Wrapper>
   );
 });
+
+const ResetPoint = styled("button")`
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  outline: 0;
+  margin: 0;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background-color: transparent;
+  border-radius: 6px;
+  &:focus {
+    outline: 2px solid #238be6;
+  }
+`;
 
 const StoryTitle = styled(Title)`
   margin-top: 24px !important;
@@ -91,6 +114,7 @@ const Configurator = styled("div")({
 });
 
 const Prewview = styled.div`
+  position: relative;
   flex: 1;
   padding: 16px;
   background: rgb(255, 255, 255);
