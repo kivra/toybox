@@ -11,7 +11,7 @@ import { TextControl } from "./TextControl";
 import { NumberControl } from "./NumberControl";
 import { Control } from "./useControl";
 import { DarkMode } from "./useIsDarkMode";
-import { FocusCentered } from "tabler-icons-react";
+import { FocusIcon } from "../../../icons/FocusIcon";
 
 interface Props {
   controls: Control;
@@ -33,7 +33,7 @@ export const Controls = observer(({ controls, darkMode, sectionId }: Props) => {
             }}
             size="lg"
           >
-            <FocusCentered color="black" />
+            <FocusIcon />
           </ActionIcon>
         </Tooltip>
       </HelpActions>
@@ -117,7 +117,6 @@ const HelpActions = styled("div")`
   margin-top: -6px;
   margin-bottom: 16px;
   padding-bottom: 6px;
-  border-bottom: 1px solid #f1f3f5;
 `;
 
 const ControlSpace = styled.div`
