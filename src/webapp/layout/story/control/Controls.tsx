@@ -1,36 +1,53 @@
-import styled from '@emotion/styled';
-import { Switch, Text, Button } from '@mantine/core';
-import { action } from 'mobx';
-import { observer } from 'mobx-react-lite';
-import { Fragment } from 'react';
-import { ControlTitle } from './atoms';
-import { BooleanControl } from './BooleanControl';
-import { ColorControl } from './ColorControl';
-import { SegmentControl } from './SegmentControl';
-import { TextControl } from './TextControl';
-import { NumberControl } from './NumberControl';
-import { Control } from './useControl';
-import { DarkMode } from './useIsDarkMode';
+import styled from "@emotion/styled";
+import { Switch, Text, Button, ActionIcon, Tooltip } from "@mantine/core";
+import { action } from "mobx";
+import { observer } from "mobx-react-lite";
+import { Fragment } from "react";
+import { ControlTitle } from "./atoms";
+import { BooleanControl } from "./BooleanControl";
+import { ColorControl } from "./ColorControl";
+import { SegmentControl } from "./SegmentControl";
+import { TextControl } from "./TextControl";
+import { NumberControl } from "./NumberControl";
+import { Control } from "./useControl";
+import { DarkMode } from "./useIsDarkMode";
+import { FocusIcon } from "../../../icons/FocusIcon";
 
 interface Props {
   controls: Control;
   darkMode: DarkMode;
+  sectionId: string;
 }
 
-export const Controls = observer(({ controls, darkMode }: Props) => {
+export const Controls = observer(({ controls, darkMode, sectionId }: Props) => {
   return (
     <>
+      <HelpActions>
+        <Tooltip withArrow arrowPosition="center" label="Reset focus">
+          <ActionIcon
+            onClick={() => {
+              const resetEl = document.getElementById(`reset-${sectionId}`);
+              if (resetEl) {
+                resetEl.focus();
+              }
+            }}
+            size="lg"
+          >
+            <FocusIcon />
+          </ActionIcon>
+        </Tooltip>
+      </HelpActions>
       <Switch
         label="Darkmode"
         checked={darkMode.isDarkMode}
-        onChange={action(event =>
+        onChange={action((event) =>
           darkMode.setIsDarkMode(event.currentTarget.checked)
         )}
       />
       <ControlSpace />
       {Object.entries(controls.state).map(([name, control]) => {
         switch (control.type) {
-          case 'color':
+          case "color":
             return (
               <Fragment key={name}>
                 <ControlTitle order={6}>{control.displayName}</ControlTitle>
@@ -38,10 +55,10 @@ export const Controls = observer(({ controls, darkMode }: Props) => {
                 <ControlSpace />
               </Fragment>
             );
-          case 'boolean':
+          case "boolean":
             return (
               <Fragment key={name}>
-                <Text size="xs" color="gray" style={{ marginBottom: '8px' }}>
+                <Text size="xs" color="gray" style={{ marginBottom: "8px" }}>
                   {control.description}
                 </Text>
                 <BooleanControl
@@ -52,36 +69,36 @@ export const Controls = observer(({ controls, darkMode }: Props) => {
                 <ControlSpace />
               </Fragment>
             );
-          case 'text':
+          case "text":
             return (
               <Fragment key={name}>
                 <ControlTitle order={6}>{control.displayName}</ControlTitle>
-                <Text size="xs" color="gray" style={{ marginBottom: '8px' }}>
+                <Text size="xs" color="gray" style={{ marginBottom: "8px" }}>
                   {control.description}
                 </Text>
                 <TextControl control={control} />
                 <ControlSpace />
               </Fragment>
             );
-          case 'number':
+          case "number":
             return (
               <Fragment key={name}>
                 <ControlTitle order={6}>{control.displayName}</ControlTitle>
-                <Text size="xs" color="gray" style={{ marginBottom: '8px' }}>
+                <Text size="xs" color="gray" style={{ marginBottom: "8px" }}>
                   {control.description}
                 </Text>
                 <NumberControl control={control} />
                 <ControlSpace />
               </Fragment>
             );
-          case 'segment':
+          case "segment":
             return (
               <Fragment key={name}>
                 <SegmentControl control={control} name={control.displayName!} />
                 <ControlSpace />
               </Fragment>
             );
-          case 'button':
+          case "button":
             return (
               <Fragment key={name}>
                 <Button children={control.name} onClick={control.value} />
@@ -95,6 +112,12 @@ export const Controls = observer(({ controls, darkMode }: Props) => {
     </>
   );
 });
+
+const HelpActions = styled("div")`
+  margin-top: -6px;
+  margin-bottom: 16px;
+  padding-bottom: 6px;
+`;
 
 const ControlSpace = styled.div`
   margin-bottom: 12px;
