@@ -21,7 +21,7 @@
     "react-dom": ">=18.2.0"
   },
   "dependencies": {
-    "@emotion/css": "11.11.0",
+    "@emotion/css": "11.11.2",
     "@emotion/styled": "11.11.0",
     "@mantine/core": "6.0.10",
     "@mantine/prism": "6.0.10",
