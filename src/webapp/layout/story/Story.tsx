@@ -42,6 +42,11 @@ export const StoryComponent = observer(({ story }: { story: Story }) => {
     toggleCodeSnippet();
   };
 
+  let codeTemplateSource = null;
+  if (story.codeTemplate) {
+    codeTemplateSource = story.codeTemplate.toString().trim();
+  }
+
   return (
     <Wrapper>
       <SectionAnchor id={sectionId}>
@@ -73,38 +78,43 @@ export const StoryComponent = observer(({ story }: { story: Story }) => {
               />
             </ControlsWrapper>
           </Configurator>
-          {story.codeTemplate && (
-            <>
-              <Button
-                leftIcon={<ArrowDownIcon />}
-                variant="default"
-                onClick={handleClick}
-                styles={() => ({
-                  root: {
-                    color: "gray",
-                    margin: "20px 0",
-                  },
-                  leftIcon: {
-                    transform: opened ? "rotate(180deg)" : "rotate(0deg)",
-                    transition: "transform 0.3s ease-in-out",
-                  },
-                })}
-              >
-                {opened ? "Hide code example" : "Show code example"}
-              </Button>
-              <Collapse
-                in={opened}
-                transitionDuration={300}
-                transitionTimingFunction="linear"
-              >
-                <CodeTemplate
-                  codeTemplate={story.codeTemplate}
-                  controls={controls}
-                />
-              </Collapse>
-            </>
-          )}
-          <ActionOutput outputs={outputs} />
+          {story.codeTemplate &&
+            (story.codeTemplateExpanded ? (
+              <>
+                <Button
+                  leftIcon={<ArrowDownIcon />}
+                  variant="default"
+                  onClick={handleClick}
+                  styles={() => ({
+                    root: {
+                      color: "gray",
+                      margin: "20px 0",
+                    },
+                    leftIcon: {
+                      transform: opened ? "rotate(180deg)" : "rotate(0deg)",
+                      transition: "transform 0.3s ease-in-out",
+                    },
+                  })}
+                >
+                  {opened ? "Hide code example" : "Show code example"}
+                </Button>
+                <Collapse
+                  in={opened}
+                  transitionDuration={300}
+                  transitionTimingFunction="linear"
+                >
+                  <CodeTemplate
+                    codeTemplate={story.codeTemplate}
+                    controls={controls}
+                  />
+                </Collapse>
+              </>
+            ) : (
+              <CodeTemplate
+                codeTemplate={story.codeTemplate}
+                controls={controls}
+              />
+            ))}
         </>
       )}
     </Wrapper>

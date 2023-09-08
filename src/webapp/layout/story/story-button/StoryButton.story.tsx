@@ -42,6 +42,7 @@ export const story: Story = {
       codeTemplate: (props) => `
       <StoryHeaderButton${props}></StoryHeaderButton>
         `,
+      codeTemplateExpanded: false,
       render({ segment, text }) {
         const type = segment({
           name: "type",
