@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Center, Title } from "@mantine/core";
+import { Center, Title, Button, Collapse } from "@mantine/core";
 import { observer } from "mobx-react-lite";
 import { Story } from "../../../types";
 import { Markdown } from "./atom/Markdown";
@@ -10,6 +10,8 @@ import { useControl } from "./control/useControl";
 import { useIsDarkMode } from "./control/useIsDarkMode";
 import { DefaultComponentWrapper } from "./DefaultComponentWrapper";
 import { useActionOutput } from "./useActionOutput";
+import { useState } from "react";
+import { ArrowDownIcon } from "../../icons/ArrowDownIcon";
 
 export const StoryComponent = observer(({ story }: { story: Story }) => {
   const controls = useControl();
@@ -29,6 +31,21 @@ export const StoryComponent = observer(({ story }: { story: Story }) => {
   }
 
   const sectionId = encodeURIComponent(story?.name ?? "");
+
+  const [opened, setOpen] = useState(false);
+
+  const toggleCodeSnippet = () => {
+    setOpen((prevOpened) => !prevOpened);
+  };
+
+  const handleClick = () => {
+    toggleCodeSnippet();
+  };
+
+  let codeTemplateSource = null;
+  if (story.codeTemplate) {
+    codeTemplateSource = story.codeTemplate.toString().trim();
+  }
 
   return (
     <Wrapper>
@@ -61,13 +78,43 @@ export const StoryComponent = observer(({ story }: { story: Story }) => {
               />
             </ControlsWrapper>
           </Configurator>
-          {story.codeTemplate && (
-            <CodeTemplate
-              codeTemplate={story.codeTemplate}
-              controls={controls}
-            />
-          )}
-          <ActionOutput outputs={outputs} />
+          {story.codeTemplate &&
+            (story.codeTemplateExpanded ? (
+              <>
+                <Button
+                  leftIcon={<ArrowDownIcon />}
+                  variant="default"
+                  onClick={handleClick}
+                  styles={() => ({
+                    root: {
+                      color: "gray",
+                      margin: "20px 0",
+                    },
+                    leftIcon: {
+                      transform: opened ? "rotate(180deg)" : "rotate(0deg)",
+                      transition: "transform 0.3s ease-in-out",
+                    },
+                  })}
+                >
+                  {opened ? "Hide code example" : "Show code example"}
+                </Button>
+                <Collapse
+                  in={opened}
+                  transitionDuration={300}
+                  transitionTimingFunction="linear"
+                >
+                  <CodeTemplate
+                    codeTemplate={story.codeTemplate}
+                    controls={controls}
+                  />
+                </Collapse>
+              </>
+            ) : (
+              <CodeTemplate
+                codeTemplate={story.codeTemplate}
+                controls={controls}
+              />
+            ))}
         </>
       )}
     </Wrapper>
