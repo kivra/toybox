@@ -1,3 +1,5 @@
 {
-  "extends": ["github>kivra/kivra_fe_config//renovate/base"]
+  "extends": ["github>kivra/kivra_fe_config//renovate/base"],
+  "reviewers": ["marcustisater-kivra"],
+  "reviewersSampleSize": 1
 }
