@@ -37,7 +37,7 @@
     "vite": "4.3.9"
   },
   "devDependencies": {
-    "@types/node": "16.18.27",
+    "@types/node": "16.18.58",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
     "@types/react-router-dom": "5.3.3",
@@ -47,6 +47,6 @@
     "vitest": "0.34.1"
   },
   "volta": {
-    "node": "16.13.1"
+    "node": "16.20.2"
   }
 }
