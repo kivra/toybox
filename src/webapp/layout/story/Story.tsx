@@ -115,6 +115,7 @@ export const StoryComponent = observer(({ story }: { story: Story }) => {
                 controls={controls}
               />
             ))}
+          <ActionOutput outputs={outputs} />
         </>
       )}
     </Wrapper>
