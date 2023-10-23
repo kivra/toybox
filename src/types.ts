@@ -52,6 +52,7 @@ export interface Story {
   type?: "fullsize" | "configurator";
   center?: boolean;
   information?: string;
+  codeTemplateExpanded?: boolean;
   codeTemplate?: CodeTemplateFn;
   render?: (
     controls: ReturnType<
