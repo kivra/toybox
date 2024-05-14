@@ -26,7 +26,6 @@ export async function getConfig(customConfigFilePath: string): Promise<Config> {
     wrapperComponent: config.wrapperComponent,
     emojiIcon: config.emojiIcon || "👾",
     title: config.title || "Components",
-    snapshotWrapperFile: config.snapshotWrapperFile,
     outDir: config.outDir || "toybox_dist",
     __customToyboxEntrypoint: config.__customToyboxEntrypoint,
     githubProjectUrl: config.githubProjectUrl!,
