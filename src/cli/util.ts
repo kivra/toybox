@@ -1,4 +1,4 @@
-import { join, relative } from "path";
+import { join } from "path";
 import type { Config } from "../types";
 
 export const htmlContent = (config: Config) => {
@@ -38,33 +38,6 @@ export const htmlContent = (config: Config) => {
       type="module"
       src="${scriptPath}"
     ></script>
-  </body>
-</html>
-`;
-};
-
-export const snapshotHtmlContent = (config: Config) => {
-  return `
-<!DOCTYPE html>
-
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="icon"
-      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📸</text></svg>"
-    />
-    <title>Snapshot</title>
-  </head>
-
-  <body>
-    <div id="app"></div>
-    ${
-      config.snapshotWrapperFile
-        ? `<script type="module" src="/${config.snapshotWrapperFile}"></script>`
-        : ""
-    }
   </body>
 </html>
 `;
