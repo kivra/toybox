@@ -113,11 +113,6 @@ export interface UserConfig {
   };
 
   /**
-   * Wrapper setup for snapshot tests
-   */
-  snapshotWrapperFile?: string;
-
-  /**
    * Title for the html page
    */
   title: string;

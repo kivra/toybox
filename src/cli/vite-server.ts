@@ -3,7 +3,7 @@ import { createServer } from "vite";
 import express from "express";
 import { Config } from "../types";
 import { getPlugins } from "./vite-plugin";
-import { htmlContent, snapshotHtmlContent } from "./util";
+import { htmlContent } from "./util";
 
 const PRELOADED_DEPENDENCIES = [
   "react",
@@ -26,7 +26,10 @@ export async function createViteServer(config: Config) {
     root: process.cwd(),
     server: {
       port,
-      middlewareMode: "ssr",
+      middlewareMode: true,
+    },
+    build: {
+      target: "esnext",
     },
     plugins: getPlugins(config),
     clearScreen: false,
@@ -49,19 +52,23 @@ export async function createViteServer(config: Config) {
   });
 
   const app = express();
-  app.use(server.middlewares);
-  app.get("/snapshot", async (req, res): Promise<void> => {
-    const url = req.originalUrl;
-    const html = await server.transformIndexHtml(
-      url,
-      snapshotHtmlContent(config)
-    );
-    res.status(200).set({ "Content-Type": "text/html" }).end(html);
-  });
-  app.use("*", async (req, res): Promise<void> => {
-    const url = req.originalUrl;
-    const html = await server.transformIndexHtml(url, htmlContent(config));
-    res.status(200).set({ "Content-Type": "text/html" }).end(html);
+  app.use(async (req, res, next) => {
+    /**
+     * Vite requirer to have a index.html file on disk but in Toybox case do we want to generate it
+     * on the fly. This middleware will intercept the request and will let Vite handle all requests except
+     * for the index.html request, eg. `/`, `/some-path/to/story`, etc.
+     */
+    const isViteRequest =
+      req.url.includes("vite") ||
+      req.url.includes("react-refresh") ||
+      req.url.includes(".");
+    if (isViteRequest) {
+      server.middlewares(req, res, next);
+    } else {
+      const url = req.originalUrl;
+      const html = await server.transformIndexHtml(url, htmlContent(config));
+      res.status(200).set({ "Content-Type": "text/html" }).end(html);
+    }
   });
 
   app.listen(port);
