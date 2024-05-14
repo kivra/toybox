@@ -12,8 +12,6 @@ const PRELOADED_DEPENDENCIES = [
   "@emotion/styled",
   "@mantine/core",
   "@mantine/prism",
-  "@radix-ui/react-accordion",
-  "markdown-to-jsx",
   "mobx",
   "mobx-react-lite",
   "react-router-dom",
@@ -28,13 +26,13 @@ export async function createViteServer(config: Config) {
       port,
       middlewareMode: true,
     },
-    build: {
-      target: "esnext",
-    },
     plugins: getPlugins(config),
     clearScreen: false,
     envPrefix: "TOYBOX_",
     optimizeDeps: {
+      esbuildOptions: {
+        target: "esnext",
+      },
       entries: [join(process.cwd(), config.storyPath, "**/*.story.tsx")],
       include: PRELOADED_DEPENDENCIES,
     },

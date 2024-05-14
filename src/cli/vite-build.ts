@@ -17,6 +17,7 @@ export async function buildApp(config: Config): Promise<void> {
       clearScreen: false,
       envPrefix: "TOYBOX_",
       build: {
+        target: "esnext",
         outDir: config.outDir,
         rollupOptions: {
           input: indexFileName,
