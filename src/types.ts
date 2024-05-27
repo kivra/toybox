@@ -19,18 +19,32 @@ export interface StoryRoute {
   urlPath: string;
   name: string;
   component: StoryComponent;
+  headName: string;
 }
 
-type StoryButtonTypes = "github" | "figma" | "designsystem";
+export type StatusVariants = "core" | "lab" | "deprecated" | "notSupported";
+export type StoryButtonTypes = "github" | "figma" | "import" | "status";
 
-export interface StoryButton {
-  type: StoryButtonTypes;
-  url?: string;
-}
+export type StoryButtonType =
+  | {
+      type: Exclude<StoryButtonTypes, "status" | "import">;
+      url?: string;
+    }
+  | {
+      type: "import";
+      packageName?: string;
+      value: string;
+    }
+  | {
+      type: "status";
+      value?: StatusVariants;
+    };
+
 export interface StoryHeader {
   title?: string;
-  description: string | JSX.Element;
-  storyButtons?: StoryButton[];
+  description?: string;
+  label?: string;
+  storyButtons?: StoryButtonType[];
 }
 export interface FullStory {
   header: StoryHeader;
@@ -52,8 +66,9 @@ export interface Story {
   type?: "fullsize" | "configurator";
   center?: boolean;
   information?: string;
-  codeTemplateExpanded?: boolean;
+  variant?: "filled";
   codeTemplate?: CodeTemplateFn;
+  hideControls?: boolean;
   render?: (
     controls: ReturnType<
       typeof import("./webapp/layout/story/control/useControl").useControl
@@ -138,4 +153,15 @@ export interface UserConfig {
    * E.g. https://github.com/kivra/react-components
    */
   githubProjectUrl: string;
+
+  /**
+   * Path to the startpage component
+   */
+  startpageComponentPath?: string;
+
+  /*
+   * Name of your npm package e.g @kivra/react-components
+   * Used to show import guidelines in stories.
+   */
+  npmPackageName: string;
 }

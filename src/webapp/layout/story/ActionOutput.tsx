@@ -13,7 +13,17 @@ export const ActionOutput = observer(({ outputs }: Props) => {
   }
   return (
     <Wrapper>
-      <Code block>
+      <Code
+        block
+        styles={{
+          root: {
+            color: "var(--text-primary)",
+            background: "var(--surface-400)",
+            border: "1px solid var(--border-distinct)",
+            padding: "4px 16px 2px 8px",
+          },
+        }}
+      >
         {outputs
           .map(
             (output) =>
