@@ -1,7 +1,12 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { StoryHeaderButton } from "./story-button/StoryButton";
-import { Title, Text } from "@mantine/core";
+import {
+  Title,
+  Text,
+  TextProps,
+  createPolymorphicComponent,
+} from "@mantine/core";
 import { StoryButtonTypes } from "../../../types";
 
 interface Props {
@@ -22,24 +27,17 @@ export const StoryHeader: React.FC<Props> = ({
   storyButtons,
   label,
 }) => {
+  const StyledDescription = createPolymorphicComponent<"button", TextProps>(
+    Description
+  );
+
   return (
     <div>
       <HeaderWrapper>
         <HeaderContent>
           <Label>{label}</Label>
           {title && <ComponentName order={1}>{title}</ComponentName>}
-          {description && (
-            <Text
-              style={{
-                fontSize: "1.25rem",
-                color: "var(--text-secondary)",
-                maxWidth: "860px",
-                marginBottom: "16px",
-              }}
-            >
-              {description}
-            </Text>
-          )}
+          {description && <StyledDescription>{description}</StyledDescription>}
 
           <ButtonWrapper>
             {storyButtons &&
@@ -48,7 +46,7 @@ export const StoryHeader: React.FC<Props> = ({
                   <React.Fragment key={button.type}>
                     <StoryHeaderButton
                       type={button.type}
-                      url={button.url ?? ""}
+                      url={button.url}
                       value={button.value}
                       packageName={button.packageName}
                     />
@@ -101,4 +99,11 @@ const Label = styled.label({
   fontWeight: 700,
   marginBottom: 0,
   marginTop: 0,
+});
+
+const Description = styled(Text)({
+  fontSize: "1.25rem",
+  color: "var(--text-secondary)",
+  maxWidth: "860px",
+  marginBottom: "16px",
 });

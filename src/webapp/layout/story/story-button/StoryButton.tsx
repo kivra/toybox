@@ -1,6 +1,11 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { Text, Badge } from "@mantine/core";
+import {
+  Text,
+  Badge,
+  createPolymorphicComponent,
+  TextProps,
+} from "@mantine/core";
 import { InlineCodeHighlight } from "@mantine/code-highlight";
 import FigmaIcon from "./icons/figma-icon";
 import GitHubIcon from "./icons/github-icon";
@@ -117,6 +122,9 @@ const StoryButton = ({
   url: string;
 }) => {
   const Icon = icon;
+  const StyledStoryButtonText = createPolymorphicComponent<"button", TextProps>(
+    StoryButtonText
+  );
   return (
     <ButtonWrapper href={url} target="_blank" rel="noopener noreferrer">
       <Text style={{ color: "var(--text-secondary)", minWidth: "80px" }}>
@@ -125,17 +133,7 @@ const StoryButton = ({
 
       <ButtonText>
         <DecorativeIcon>{Icon}</DecorativeIcon>
-        <Text
-          style={{
-            color: "var(--text-primary)",
-            textDecoration: "underline",
-            textDecorationColor: "var(--text-secondary)",
-            textDecorationStyle: "dotted",
-            textUnderlineOffset: "5px",
-          }}
-        >
-          {title}
-        </Text>
+        <StyledStoryButtonText>{title}</StyledStoryButtonText>
       </ButtonText>
     </ButtonWrapper>
   );
@@ -162,4 +160,12 @@ const ButtonWrapper = styled("a")({
 const FlexItem = styled("div")({
   display: "flex",
   alignItems: "center",
+});
+
+const StoryButtonText = styled(Text)({
+  color: "var(--text-primary)",
+  textDecoration: "underline",
+  textDecorationColor: "var(--text-secondary)",
+  textDecorationStyle: "dotted",
+  textUnderlineOffset: "5px",
 });
