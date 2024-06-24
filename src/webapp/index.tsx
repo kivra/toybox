@@ -24,8 +24,8 @@ function App() {
                       component: () =>
                         import("__STARTPAGE_COMPONENT_PATH__" as string),
                       urlPath: "/",
-                      name: "release",
-                      headName: "release",
+                      name: "startpage",
+                      headName: "startpage",
                     }}
                   />
                 }

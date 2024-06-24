@@ -20,7 +20,7 @@ export const story: Story = {
       },
       {
         type: "figma",
-        url: "",
+        url: "#",
       },
     ],
   },
@@ -53,6 +53,7 @@ export const story: Story = {
     {
       name: "Displaying examples",
       center: true,
+      variant: "transparent",
       hideControls: true,
       information: `
 In your story, you could showcase various examples of the button component without showing the property toolbar.

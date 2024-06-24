@@ -153,13 +153,16 @@ const Preview = styled.div<{
   flex: "1",
   padding: "16px",
   background:
-    variant === "filled" ? "var(--surface-200)" : "var(--surface-100)",
+    variant === "filled"
+      ? "var(--surface-200)"
+      : variant === "transparent"
+      ? "transparent"
+      : "var(--surface-100)",
   borderTopLeftRadius: "12px",
   borderTopRightRadius: hideControls ? "12px" : 0,
   borderBottomLeftRadius: codeTemplate ? 0 : "12px",
   borderBottomRightRadius: hideControls ? "12px" : 0,
   border: "1px solid var(--border)",
-  borderRight: hideControls ? 0 : undefined,
   borderBottom: hideControls ? 0 : undefined,
   minHeight: "270px",
 }));

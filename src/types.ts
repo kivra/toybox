@@ -22,12 +22,12 @@ export interface StoryRoute {
   headName: string;
 }
 
-export type StatusVariants = "core" | "lab" | "deprecated" | "notSupported";
+export type StatusVariants = "core" | "deprecated" | "notSupported";
 export type StoryButtonTypes = "github" | "figma" | "import" | "status";
 
 export type StoryButtonType =
   | {
-      type: Exclude<StoryButtonTypes, "status" | "import">;
+      type: "figma" | "github";
       url?: string;
     }
   | {
@@ -66,7 +66,7 @@ export interface Story {
   type?: "fullsize" | "configurator";
   center?: boolean;
   information?: string;
-  variant?: "filled";
+  variant?: "filled" | "transparent";
   codeTemplate?: CodeTemplateFn;
   hideControls?: boolean;
   render?: (

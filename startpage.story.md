@@ -45,7 +45,7 @@ export const story: Story = {
         <Button${props}>
           ${children}
         </Button>`,
-      variant: "filled", // Optionally, you can switch to another background on the codeTemplate.
+      variant: "filled" | "transparent", // Optionally, you can switch to another background on the codeTemplate.
       render({ boolean, text, segment, button }, action) {
         // This will add a control button but will not add any extra props in `codeTemplate`
         button('Click on me', () => alert('Hello!'));

@@ -52,7 +52,6 @@ export const StoryHeaderButton: React.FC<Props> = ({
 const Status = ({ type }: { type: StatusVariants }) => {
   const statusStyles = {
     core: { color: "var(--green-primary)", variant: "outline" },
-    lab: { color: "#BD500C", variant: "outline" },
     notSupported: {
       color: "#B50019",
       variant: "outline",
