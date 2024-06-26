@@ -70,10 +70,6 @@ export type NestedStoryRoute = Map<string, FirstLevelRoute>;
 interface FirstLevelRoute {
   head: string;
   stories: StoryRoute[];
-  subfolders: {
-    head: string;
-    stories: StoryRoute[];
-  }[];
 }
 
 export function createRouteTree(): NestedStoryRoute {
@@ -84,47 +80,8 @@ export function createRouteTree(): NestedStoryRoute {
     const storyName = breadcrumbs.pop()!;
     const headname = breadcrumbs[0]!;
     const urlPath = `/${path}`;
-
-    if (breadcrumbs.length === 1) {
+    if (breadcrumbs.length) {
       addTopLevelRoute(headname, component, storyName, urlPath, routes);
-    } else {
-      const subfolderHeadname = breadcrumbs[1]!;
-      const firstTwoParts = `${headname}/${subfolderHeadname}`;
-      const numberOfStories = modules.numberOfStoriesInPath(firstTwoParts);
-      if (numberOfStories === 1) {
-        addTopLevelRoute(headname, component, storyName, urlPath, routes);
-      } else {
-        const storyRoute = {
-          component,
-          name: storyName,
-          urlPath,
-        };
-        const route = routes.get(headname);
-        if (!route) {
-          routes.set(headname, {
-            head: headname,
-            stories: [],
-            subfolders: [
-              {
-                head: subfolderHeadname,
-                stories: [storyRoute],
-              },
-            ],
-          });
-        } else {
-          const subfolder = route.subfolders.find(
-            (sf) => sf.head === subfolderHeadname
-          );
-          if (subfolder) {
-            subfolder.stories.push(storyRoute);
-          } else {
-            route.subfolders.push({
-              head: subfolderHeadname,
-              stories: [storyRoute],
-            });
-          }
-        }
-      }
     }
   }
 
@@ -142,13 +99,13 @@ function addTopLevelRoute(
     component,
     name: storyName,
     urlPath: path,
+    headName: headName,
   };
   const route = routes.get(headName);
   if (!route) {
     routes.set(headName, {
       head: headName,
       stories: [storyRoute],
-      subfolders: [],
     });
   } else {
     route.stories.push(storyRoute);
@@ -159,8 +116,7 @@ export function extractAllRoutes(nestedRoutes: NestedStoryRoute): StoryRoute[] {
   const allRoutes: StoryRoute[] = [];
   for (const route of nestedRoutes.values()) {
     const topLevel = route.stories;
-    const subLevel = route.subfolders.map((sf) => sf.stories).flat();
-    allRoutes.push(...topLevel, ...subLevel);
+    allRoutes.push(...topLevel);
   }
   return allRoutes;
 }

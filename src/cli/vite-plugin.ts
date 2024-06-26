@@ -53,6 +53,32 @@ function storyImportPath(config: Config): Plugin {
   };
 }
 
+function storyStartPage(config: Config): Plugin {
+  return {
+    name: "story-start-page-file",
+    enforce: "pre",
+    transform(code, filePath) {
+      if (!/webapp\/index\.tsx/.test(filePath)) {
+        return undefined;
+      }
+
+      if (config.startpageComponentPath === undefined) {
+        return code.replace("__STARTPAGE_COMPONENT_PATH__", "");
+      }
+
+      const startPageComponentPath = relativePath(
+        config.toyboxRootPath,
+        join(process.cwd(), config.startpageComponentPath)
+      );
+
+      return code.replaceAll(
+        "__STARTPAGE_COMPONENT_PATH__",
+        startPageComponentPath
+      );
+    },
+  };
+}
+
 function updateTitle(config: Config): Plugin {
   return {
     name: "update-title",
@@ -62,6 +88,19 @@ function updateTitle(config: Config): Plugin {
         return undefined;
       }
       return code.replace("NAVBAR_TITLE", config.title);
+    },
+  };
+}
+
+function updateImportPackageName(config: Config): Plugin {
+  return {
+    name: "update-import-package-name",
+    enforce: "pre",
+    transform(code, filePath) {
+      if (!/StoryButton\.tsx/.test(filePath)) {
+        return undefined;
+      }
+      return code.replace("DEFAULT_NPM_PACKAGE_NAME", config.npmPackageName);
     },
   };
 }
@@ -117,6 +156,8 @@ export function getPlugins(config: Config) {
     storyImportPath(config),
     storyWrapperImport(config),
     updateTitle(config),
+    updateImportPackageName(config),
     updateGitHubProjectUrl(config),
+    storyStartPage(config),
   ];
 }

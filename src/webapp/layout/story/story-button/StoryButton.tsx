@@ -1,86 +1,153 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { Body } from "../atom/typo";
-import { MediaQuery } from "@mantine/core";
+import {
+  Text,
+  Badge,
+  createPolymorphicComponent,
+  TextProps,
+} from "@mantine/core";
+import { InlineCodeHighlight } from "@mantine/code-highlight";
+import FigmaIcon from "./icons/figma-icon";
+import GitHubIcon from "./icons/github-icon";
+import { StatusVariants, StoryButtonTypes } from "../../../../types";
 
 export interface Props {
-  type: "github" | "figma" | "designsystem";
-  url: string;
+  type: StoryButtonTypes;
+  url?: string;
+  packageName?: string;
+  value?: string;
 }
 
-export const StoryHeaderButton: React.FC<Props> = ({ type, url }) => {
+export const StoryHeaderButton: React.FC<Props> = ({
+  type,
+  url,
+  packageName,
+  value,
+}) => {
+  if (type === "status") {
+    return <Status type={value as StatusVariants} />;
+  }
+  if (type === "import") {
+    return <ImportStory packageName={packageName} componentName={value} />;
+  }
   if (type === "github") {
     return (
       <StoryButton
-        url={url}
-        imgSrc="https://static.kivra.com/assets/logo/github-logo.svg"
-        title="View component"
+        url={url ?? ""}
+        icon={<GitHubIcon color="var(--text-primary)" />}
+        title="Source code"
         description="GitHub"
       />
     );
-  } else if (type === "designsystem") {
+  }
+  if (type === "figma") {
     return (
       <StoryButton
-        url={url}
-        imgSrc="https://static.kivra.com/assets/logo/kivra-symbol-logo.svg"
-        title="View documentation"
-        description="Kivra Design System"
-      />
-    );
-  } else {
-    return (
-      <StoryButton
-        url={url}
-        imgSrc="https://static.kivra.com/assets/logo/figma-logo.svg"
-        title="View guidelines"
+        url={url ?? ""}
+        icon={<FigmaIcon />}
+        title="Design"
         description="Figma"
       />
     );
+  } else {
+    return null;
   }
 };
 
+const Status = ({ type }: { type: StatusVariants }) => {
+  const statusStyles = {
+    core: { color: "var(--green-primary)", variant: "outline" },
+    notSupported: {
+      color: "#B50019",
+      variant: "outline",
+    },
+    deprecated: { color: "#B50019", variant: "filled" },
+  };
+  const { color, variant } = statusStyles[type];
+
+  return (
+    <FlexItem>
+      <Text style={{ color: "var(--text-secondary)", minWidth: "80px" }}>
+        Status
+      </Text>
+      <Badge
+        color={color}
+        variant={variant}
+        size="md"
+        style={{
+          textTransform: "capitalize",
+          fontSize: "13px",
+        }}
+      >
+        {type}
+      </Badge>
+    </FlexItem>
+  );
+};
+
+const ImportStory = ({
+  componentName,
+  packageName,
+}: {
+  componentName?: string;
+  packageName?: string;
+}) => {
+  const importFrom = packageName ?? "DEFAULT_NPM_PACKAGE_NAME";
+  return (
+    <FlexItem>
+      <Text style={{ color: "var(--text-secondary)", minWidth: "80px" }}>
+        Import
+      </Text>
+
+      <InlineCodeHighlight
+        code={`import { ${componentName} } from '${importFrom}';`}
+        lang="tsx"
+        styles={{
+          code: { background: "transparent", fontSize: "14px" },
+        }}
+      />
+    </FlexItem>
+  );
+};
+
 const StoryButton = ({
-  imgSrc,
+  icon,
   title,
   description,
   url,
 }: {
-  imgSrc: string;
+  icon: JSX.Element;
   title: string;
   description: string;
   url: string;
 }) => {
+  const Icon = icon;
+  const StyledStoryButtonText = createPolymorphicComponent<"button", TextProps>(
+    StoryButtonText
+  );
   return (
     <ButtonWrapper href={url} target="_blank" rel="noopener noreferrer">
-      <ButtonImage src={imgSrc} />
-      <MediaQuery query="(max-width: 960px)" styles={{ display: "none" }}>
-        <div>
-          <ButtonText>
-            <Body color="$text-primary">{title}</Body>
-            <Body size="small" color="$text-secondary">
-              {description}
-            </Body>
-          </ButtonText>
-        </div>
-      </MediaQuery>
+      <Text style={{ color: "var(--text-secondary)", minWidth: "80px" }}>
+        {description}
+      </Text>
+
+      <ButtonText>
+        <DecorativeIcon>{Icon}</DecorativeIcon>
+        <StyledStoryButtonText>{title}</StyledStoryButtonText>
+      </ButtonText>
     </ButtonWrapper>
   );
 };
 
-const ButtonImage = styled("img")({
-  borderRadius: "8px",
-  width: "40px",
-  height: "40px",
-  marginRight: 12,
-  "@media (max-width: 960px)": {
-    marginRight: 0,
-  },
+const DecorativeIcon = styled("div")({
+  display: "flex",
+  alignItems: "center",
+  marginRight: "8px",
 });
 
 const ButtonText = styled("div")({
-  borderRadius: "8px",
   display: "flex",
-  flexDirection: "column",
+  alignItems: "center",
 });
 
 const ButtonWrapper = styled("a")({
@@ -88,21 +155,17 @@ const ButtonWrapper = styled("a")({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  border: `1px solid #d9d9d9`,
-  backgroundColor: "#fff",
-  borderRadius: "8px",
-  boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.06)",
-  paddingLeft: 12,
-  paddingRight: 20,
-  height: "56px",
-  transition: "transform 0.25s cubic-bezier(0.35, 0.35, 0.58, 1)",
-  "&:hover": {
-    cursor: "pointer",
-    boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.06)",
-    transform: "translate3d(0, -2px, 0)",
-    backgroundColor: "#ffffff",
-  },
-  "@media (max-width: 960px)": {
-    paddingRight: 12,
-  },
+});
+
+const FlexItem = styled("div")({
+  display: "flex",
+  alignItems: "center",
+});
+
+const StoryButtonText = styled(Text)({
+  color: "var(--text-primary)",
+  textDecoration: "underline",
+  textDecorationColor: "var(--text-secondary)",
+  textDecorationStyle: "dotted",
+  textUnderlineOffset: "5px",
 });

@@ -44,7 +44,7 @@ export function ModuleComponent({
       return null;
     }
     const {
-      header: { title, description, storyButtons },
+      header: { title, description, label, storyButtons },
       stories,
     } = fullStory;
 
@@ -57,12 +57,14 @@ export function ModuleComponent({
       }
       return button;
     });
+
     return (
       <>
         <StoryHeader
           title={title || route.name}
           description={description}
           storyButtons={buttons}
+          label={label ?? route.headName}
         />
         <MainInnerWrapper>
           {stories.map((story, i) => (
@@ -82,10 +84,6 @@ function generateGithubUrl(storyPath: string) {
 }
 
 const MainInnerWrapper = styled("div")({
-  maxWidth: "1280px",
-  padding: "0 40px",
+  maxWidth: "1200px",
   margin: "0 auto",
-  "@media (max-width: 960px)": {
-    padding: "0 20px",
-  },
 });

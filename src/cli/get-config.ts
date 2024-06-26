@@ -29,5 +29,7 @@ export async function getConfig(customConfigFilePath: string): Promise<Config> {
     outDir: config.outDir || "toybox_dist",
     __customToyboxEntrypoint: config.__customToyboxEntrypoint,
     githubProjectUrl: config.githubProjectUrl!,
+    startpageComponentPath: config.startpageComponentPath,
+    npmPackageName: config.npmPackageName!,
   };
 }

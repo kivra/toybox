@@ -1,36 +1,58 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { StoryHeader as StoryHeaderProps } from "../../../types";
 import { StoryHeaderButton } from "./story-button/StoryButton";
-import { Body, Display } from "./atom/typo";
+import {
+  Title,
+  Text,
+  TextProps,
+  createPolymorphicComponent,
+} from "@mantine/core";
+import { StoryButtonTypes } from "../../../types";
 
-export const StoryHeader: React.FC<StoryHeaderProps> = ({
+interface Props {
+  title: string;
+  description?: string;
+  label: string;
+  storyButtons?: {
+    type: StoryButtonTypes;
+    url?: string;
+    value?: string;
+    packageName?: string;
+  }[];
+}
+
+export const StoryHeader: React.FC<Props> = ({
   title,
   description,
   storyButtons,
+  label,
 }) => {
-  const isDescriptionComponent = typeof description !== "string";
+  const StyledDescription = createPolymorphicComponent<"button", TextProps>(
+    Description
+  );
+
   return (
     <div>
       <HeaderWrapper>
         <HeaderContent>
-          {title && <HeaderTitle gutterBottom={false}>{title}</HeaderTitle>}
-          {isDescriptionComponent ? (
-            description
-          ) : (
-            <HeaderDescription>{description}</HeaderDescription>
-          )}
+          <Label>{label}</Label>
+          {title && <ComponentName order={1}>{title}</ComponentName>}
+          {description && <StyledDescription>{description}</StyledDescription>}
+
           <ButtonWrapper>
             {storyButtons &&
-              storyButtons.map(
-                (button) =>
-                  button.url && (
-                    <React.Fragment key={button.type}>
-                      <StoryHeaderButton type={button.type} url={button.url} />
-                      <div style={{ marginRight: 16 }} />
-                    </React.Fragment>
-                  )
-              )}
+              storyButtons.map((button) => {
+                return (
+                  <React.Fragment key={button.type}>
+                    <StoryHeaderButton
+                      type={button.type}
+                      url={button.url}
+                      value={button.value}
+                      packageName={button.packageName}
+                    />
+                  </React.Fragment>
+                );
+              })}
           </ButtonWrapper>
         </HeaderContent>
       </HeaderWrapper>
@@ -42,47 +64,46 @@ const HeaderWrapper = styled("div")({
   position: "relative",
   display: "flex",
   justifyContent: "center",
-  borderBottom: "1px solid #EEEE",
-  background:
-    "linear-gradient(0deg, rgba(0, 0, 0, 0.03) 0%, rgba(255, 255, 255, 0) 100%)",
 });
 
 const HeaderContent = styled("div")({
-  paddingTop: "56px",
-  paddingLeft: "40px",
-  paddingRight: "40px",
-  minWidth: 300,
-  maxWidth: 1280,
+  minWidth: "300px",
+  maxWidth: "1200px",
   flex: 1,
-  "@media (max-width: 960px)": {
-    paddingTop: "20px",
-    paddingLeft: "20px",
-    paddingRight: "20px",
-  },
-});
-
-const HeaderTitle = styled(Display)({
-  fontSize: "3rem",
-  marginBottom: "24px",
-  "@media (max-width: 960px)": {
-    maxWidth: "230px",
-    fontSize: "2rem",
-    overflowWrap: "break-word",
-  },
-});
-
-const HeaderDescription = styled(Body)({
-  fontSize: "1.2rem",
-  lineHeight: "1.4",
-  maxWidth: "600px",
-  color: "#000",
-  marginBottom: "32px",
+  borderBottom: "1px solid var(--border)",
 });
 
 const ButtonWrapper = styled("div")({
   display: "flex",
-  marginBottom: "42px",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  marginBottom: "32px",
+  gap: "8px",
   "@media (max-width: 960px)": {
     marginBottom: "32px",
   },
+});
+
+const ComponentName = styled(Title)({
+  marginBottom: "16px",
+  fontSize: "3rem",
+  lineHeight: "1.2",
+  maxWidth: "860px",
+});
+
+const Label = styled.label({
+  color: "var(--green-primary)",
+  fontSize: "0.875rem",
+  lineHeight: "1.5rem",
+  textTransform: "uppercase",
+  fontWeight: 700,
+  marginBottom: 0,
+  marginTop: 0,
+});
+
+const Description = styled(Text)({
+  fontSize: "1.25rem",
+  color: "var(--text-secondary)",
+  maxWidth: "860px",
+  marginBottom: "16px",
 });

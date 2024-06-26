@@ -1,8 +1,6 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/css";
-import { Code, Input } from "@mantine/core";
-import * as Accordion from "@radix-ui/react-accordion";
-import { ArrowDownIcon } from "../icons/ArrowDownIcon";
+import { Accordion, Code, TextInput } from "@mantine/core";
 import { SearchIcon } from "../icons/SearchIcon";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
@@ -17,10 +15,11 @@ export function Navbar({ routes, onItemClick }: Props) {
   return (
     <Wrapper>
       <ScrollWrap>
-        <TopWrap>
+        <TopWrap href="/">
           <img
             src="https://static.kivra.com/img/logo/kivra-green-k.svg"
             style={{ marginRight: "16px" }}
+            alt=""
           />
           <Title>NAVBAR_TITLE</Title>
         </TopWrap>
@@ -39,89 +38,54 @@ export function Navbar({ routes, onItemClick }: Props) {
 
 function MenuItems({ routes, onItemClick }: Props) {
   const {
-    accordionValues,
+    defaultAccordionValue,
     activeStoryUrl,
     searchString,
-    setAccordionValues,
     setSearchString,
     stories,
   } = useStoriesList(routes);
 
   return (
     <>
-      <div style={{ margin: "0px 16px 38px 16px" }}>
-        <Input
-          icon={<SearchIcon />}
+      <SearchBar>
+        <TextInput
+          leftSection={<SearchIcon />}
           placeholder="Search"
           radius="md"
           size="md"
           value={searchString}
           classNames={{
             input: css({
-              fontSize: 14,
-              color: "#212121",
+              backgroundColor: "var(--surface-white)",
+              borderColor: "var(--border-none-dark)",
+              borderRadius: "12px",
+              color: "rgba(0, 0, 0, 0.65)",
               "&::placeholder": {
-                color: "#6A6A6A",
+                color: "rgba(0, 0, 0, 0.65)",
               },
               "&:focus": {
-                borderColor: "#5CA600",
+                borderColor: "var(--green-primary)",
               },
             }),
           }}
           onChange={(e: any) => setSearchString(e.target.value)}
         />
-      </div>
-      {stories.map(([name, { stories, subfolders }]) => {
+      </SearchBar>
+      {stories.map(([name, { stories }]) => {
         return (
           <div key={name}>
-            <Accordion.Root
-              type="multiple"
-              onValueChange={setAccordionValues}
-              value={accordionValues}
-            >
-              <Accordion.Item value={name}>
-                <AccordionHeader>
-                  <AccordionTrigger>
-                    <AccordionTitle>{name}</AccordionTitle>
-                    <AccordionIcon />
-                  </AccordionTrigger>
-                </AccordionHeader>
-                <Accordion.Content>
-                  {subfolders.map((subfolder) => {
-                    if (subfolder.stories.length === 0) {
-                      return null;
-                    }
-                    return (
-                      <div key={subfolder.head}>
-                        <Overline>{subfolder.head}</Overline>
-                        {subfolder.stories.map((story) => {
-                          const activeLink =
-                            location.pathname === story.urlPath;
-                          return (
-                            <MenuItemWrapper
-                              key={story.urlPath}
-                              activeLink={activeLink}
-                            >
-                              <MenuItem
-                                onClick={onItemClick}
-                                to={story.urlPath}
-                                style={{ padding: "10px 0 10px 28px" }}
-                                activeLink={activeLink}
-                              >
-                                {story.name}
-                              </MenuItem>
-                            </MenuItemWrapper>
-                          );
-                        })}
-                      </div>
-                    );
-                  })}
+            <Accordion defaultValue={defaultAccordionValue}>
+              <Accordion.Item value={name} style={{ border: 0 }}>
+                <AccordionTrigger>
+                  <AccordionTitle>{name}</AccordionTitle>
+                </AccordionTrigger>
+                <AccordionHeader key={name}>
                   {stories.map((story) => {
                     const activeLink = activeStoryUrl === story.urlPath;
                     return (
                       <MenuItemWrapper
                         key={story.urlPath}
-                        style={{ padding: "10px 0 10px 20px" }}
+                        style={{ padding: "6px 12px" }}
                         activeLink={activeLink}
                       >
                         <MenuItem
@@ -130,14 +94,16 @@ function MenuItems({ routes, onItemClick }: Props) {
                           to={story.urlPath}
                           activeLink={activeStoryUrl === story.urlPath}
                         >
-                          {story.name}
+                          {story.name.startsWith("use")
+                            ? story.name
+                            : story.name.replace(/(?<!^)([A-Z])/g, " $1")}
                         </MenuItem>
                       </MenuItemWrapper>
                     );
                   })}
-                </Accordion.Content>
+                </AccordionHeader>
               </Accordion.Item>
-            </Accordion.Root>
+            </Accordion>
           </div>
         );
       })}
@@ -157,50 +123,53 @@ const useStoriesList = (routes: NestedStoryRoute) => {
   const routesEntries = Array.from(routes.entries());
   const [searchString, setSearchString] = useState("");
   const stories = routesEntries.map(
-    ([name, { stories, subfolders }]) =>
+    ([name, { stories }]) =>
       [
         name,
         {
           stories: stories.filter((s) => isStringMatch(s.name, searchString)),
-          subfolders: subfolders.map((sf) => ({
-            head: sf.head,
-            stories: sf.stories.filter((s) =>
-              isStringMatch(s.name, searchString)
-            ),
-          })),
         },
       ] as const
   );
   const allAccordionValues = routesEntries.map(([name]) => name);
-  const [accordionValues, setAccordionValues] =
-    useState<string[]>(allAccordionValues);
+  const defaultAccordionValue = allAccordionValues[0];
 
   return {
     activeStoryUrl: location.pathname,
     stories,
     searchString,
     setSearchString,
-    accordionValues,
-    setAccordionValues,
+    defaultAccordionValue,
   };
 };
 
-const AccordionHeader = styled(Accordion.Header)({
+const AccordionHeader = styled(Accordion.Panel)({
   margin: 0,
+
+  ".mantine-Accordion-content": {
+    padding: 0,
+  },
 });
 
-const AccordionTrigger = styled(Accordion.Trigger)({
+const AccordionTrigger = styled(Accordion.Control)({
   backgroundColor: "transparent",
   border: "none",
   display: "flex",
   justifyContent: "space-between",
   width: "100%",
-  paddingLeft: 0,
   cursor: "pointer",
-  padding: "10px 12px 10px 16px",
+  borderBottom: 0,
+  padding: 0,
+
+  h2: {
+    color: "var(--green-primary)",
+    fontSize: "0.875rem",
+    fontWeight: 700,
+    textTransform: "uppercase",
+  },
 
   "&:hover": {
-    backgroundColor: "rgba(0, 0, 0, 0.04)",
+    backgroundColor: "transparent",
   },
 });
 
@@ -214,19 +183,14 @@ const AccordionTitle = styled.h2({
   fontWeight: "normal",
 });
 
-const AccordionIcon = styled(ArrowDownIcon)({
-  transition: "transform 100ms",
-  "[data-state=open] &": { transform: "rotate(180deg)" },
-});
-
 const Wrapper = styled.div({
   zIndex: 1075,
   gridArea: "Menu",
-  backgroundColor: "white",
-  borderRight: "1px solid #e9ecef",
   position: "relative",
-  boxShadow: "inset -5px -26px 24px -2px rgb(0 0 0 / 8%)",
+  padding: "16px",
+
   "@media (max-width: 960px)": {
+    backgroundColor: "var(--surface-100)",
     position: "fixed",
     left: "0",
   },
@@ -235,18 +199,18 @@ const Wrapper = styled.div({
 const ScrollWrap = styled.div({
   top: "0",
   position: "sticky",
-  overflowY: "scroll",
-  height: "calc(100vh + 100px)",
+  overflowY: "auto",
+  height: "100vh",
   display: "flex",
   flexDirection: "column",
 });
 
-const TopWrap = styled.div({
+const TopWrap = styled.a({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
-  padding: "28px 16px",
-  fontSize: "16px",
+  paddingBottom: "24px",
+  textDecoration: "none",
 });
 
 const InnerWrapper = styled.div({
@@ -261,46 +225,49 @@ const CodeWrapper = styled.div({
 
 const MenuItem = styled(Link, { shouldForwardProp: (p) => p !== "activeLink" })(
   (p: { activeLink: boolean }) => ({
-    color: "#212121",
-    fontSize: "14px",
-    fontWeight: p.activeLink ? "bold" : "normal",
+    fontWeight: p.activeLink ? 500 : 400,
+    fontSize: "15px",
+
     textDecoration: "none",
     display: "block",
+    color: "var(--text-primary)",
   })
 );
 
 const MenuItemWrapper = styled.div(
   ({ activeLink }: { activeLink: boolean }) => ({
-    borderLeft: `4px solid ${activeLink ? "#5CA600" : "transparent"}`,
-    backgroundColor: activeLink ? "rgba(0, 0, 0, 0.04)" : "transparent",
-    cursor: "pointer",
-    "&:hover": {
-      backgroundColor: "rgba(0, 0, 0, 0.04)",
+    backgroundColor: activeLink ? "var(--surface-300)" : "transparent",
+    borderRadius: "12px",
+    ":hover": {
+      backgroundColor: "var(--surface-300)",
+    },
+    ":active": {
+      transform: "scale(0.99)",
     },
   })
 );
 
-const Overline = styled.h3({
-  margin: "16px 0 8px 24px",
-  fontStyle: "normal",
-  fontWeight: "bold",
-  letterSpacing: "0.5px",
-  fontSize: 12,
-  lineHeight: "14px",
+const SearchBar = styled.div({
+  margin: "0px 0px 24px 0px",
+});
+
+const CategoryTitle = styled.p({
+  color: "var(--green-primary)",
+  fontSize: "0.875rem",
+  fontWeight: 700,
   textTransform: "uppercase",
-  color: "#313131",
+  marginTop: "0.75rem",
+  marginBottom: "0.5rem",
 });
 
 /**
  * Title of the application, eg. React Components
  */
 const Title = styled.h1({
-  fontFamily: "'Kivra Sans', 'DM Sans', sans-serif",
-  fontWeight: "bold",
-  fontSize: 20,
-  letterSpacing: 0.1,
-  color: "#212121",
+  color: "var(--text-primary)",
   margin: 0,
   whiteSpace: "break-spaces",
   width: "min-content",
+  fontSize: "1.25rem",
+  lineHeight: "1.375rem",
 });
