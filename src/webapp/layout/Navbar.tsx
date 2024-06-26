@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/css";
-import { Code, TextInput } from "@mantine/core";
+import { Accordion, Code, TextInput } from "@mantine/core";
 import { SearchIcon } from "../icons/SearchIcon";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
@@ -37,8 +37,13 @@ export function Navbar({ routes, onItemClick }: Props) {
 }
 
 function MenuItems({ routes, onItemClick }: Props) {
-  const { activeStoryUrl, searchString, setSearchString, stories } =
-    useStoriesList(routes);
+  const {
+    defaultAccordionValue,
+    activeStoryUrl,
+    searchString,
+    setSearchString,
+    stories,
+  } = useStoriesList(routes);
 
   return (
     <>
@@ -69,28 +74,36 @@ function MenuItems({ routes, onItemClick }: Props) {
       {stories.map(([name, { stories }]) => {
         return (
           <div key={name}>
-            <CategoryTitle>{name}</CategoryTitle>
-            {stories.map((story) => {
-              const activeLink = activeStoryUrl === story.urlPath;
-              return (
-                <MenuItemWrapper
-                  key={story.urlPath}
-                  style={{ padding: "6px 12px" }}
-                  activeLink={activeLink}
-                >
-                  <MenuItem
-                    onClick={onItemClick}
-                    key={story.urlPath}
-                    to={story.urlPath}
-                    activeLink={activeStoryUrl === story.urlPath}
-                  >
-                    {story.name.startsWith("use")
-                      ? story.name
-                      : story.name.replace(/(?<!^)([A-Z])/g, " $1")}
-                  </MenuItem>
-                </MenuItemWrapper>
-              );
-            })}
+            <Accordion defaultValue={defaultAccordionValue}>
+              <Accordion.Item value={name} style={{ border: 0 }}>
+                <AccordionTrigger>
+                  <AccordionTitle>{name}</AccordionTitle>
+                </AccordionTrigger>
+                <AccordionHeader key={name}>
+                  {stories.map((story) => {
+                    const activeLink = activeStoryUrl === story.urlPath;
+                    return (
+                      <MenuItemWrapper
+                        key={story.urlPath}
+                        style={{ padding: "6px 12px" }}
+                        activeLink={activeLink}
+                      >
+                        <MenuItem
+                          onClick={onItemClick}
+                          key={story.urlPath}
+                          to={story.urlPath}
+                          activeLink={activeStoryUrl === story.urlPath}
+                        >
+                          {story.name.startsWith("use")
+                            ? story.name
+                            : story.name.replace(/(?<!^)([A-Z])/g, " $1")}
+                        </MenuItem>
+                      </MenuItemWrapper>
+                    );
+                  })}
+                </AccordionHeader>
+              </Accordion.Item>
+            </Accordion>
           </div>
         );
       })}
@@ -119,18 +132,56 @@ const useStoriesList = (routes: NestedStoryRoute) => {
       ] as const
   );
   const allAccordionValues = routesEntries.map(([name]) => name);
-  const [accordionValues, setAccordionValues] =
-    useState<string[]>(allAccordionValues);
+  const defaultAccordionValue = allAccordionValues[0];
 
   return {
     activeStoryUrl: location.pathname,
     stories,
     searchString,
     setSearchString,
-    accordionValues,
-    setAccordionValues,
+    defaultAccordionValue,
   };
 };
+
+const AccordionHeader = styled(Accordion.Panel)({
+  margin: 0,
+
+  ".mantine-Accordion-content": {
+    padding: 0,
+  },
+});
+
+const AccordionTrigger = styled(Accordion.Control)({
+  backgroundColor: "transparent",
+  border: "none",
+  display: "flex",
+  justifyContent: "space-between",
+  width: "100%",
+  cursor: "pointer",
+  borderBottom: 0,
+  padding: 0,
+
+  h2: {
+    color: "var(--green-primary)",
+    fontSize: "0.875rem",
+    fontWeight: 700,
+    textTransform: "uppercase",
+  },
+
+  "&:hover": {
+    backgroundColor: "transparent",
+  },
+});
+
+const AccordionTitle = styled.h2({
+  fontSize: 16,
+  lineHeight: "20px",
+  letterSpacing: "0.1px",
+  color: "#212121",
+  margin: 0,
+  textTransform: "capitalize",
+  fontWeight: "normal",
+});
 
 const Wrapper = styled.div({
   zIndex: 1075,

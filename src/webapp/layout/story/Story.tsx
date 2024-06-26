@@ -90,7 +90,7 @@ export const StoryComponent = observer(({ story }: { story: Story }) => {
               )}
             </Preview>
             {!story.hideControls && (
-              <ControlsWrapper>
+              <ControlsWrapper codeTemplate={Boolean(story.codeTemplate)}>
                 <Controls sectionId={sectionId} controls={controls} />
               </ControlsWrapper>
             )}
@@ -161,16 +161,19 @@ const Preview = styled.div<{
   borderTopLeftRadius: "12px",
   borderTopRightRadius: hideControls ? "12px" : 0,
   borderBottomLeftRadius: codeTemplate ? 0 : "12px",
-  borderBottomRightRadius: hideControls ? "12px" : 0,
+  borderBottomRightRadius: hideControls && !codeTemplate ? "12px" : 0,
   border: "1px solid var(--border)",
-  borderBottom: hideControls ? 0 : undefined,
+  borderRight: !hideControls ? 0 : undefined,
+  borderBottom: codeTemplate ? 0 : undefined,
   minHeight: "270px",
 }));
 
-const ControlsWrapper = styled("div")({
+const ControlsWrapper = styled.div<{
+  codeTemplate?: boolean;
+}>(({ codeTemplate }) => ({
   width: "250px",
   borderTopRightRadius: "12px",
-  borderBottomRightRadius: "12px",
+  borderBottomRightRadius: codeTemplate ? 0 : "12px",
   padding: "16px",
   boxSizing: "border-box",
   border: "1px solid var(--border)",
@@ -181,7 +184,7 @@ const ControlsWrapper = styled("div")({
     borderLeft: "none",
     borderTop: "1px solid var(--border)",
   },
-});
+}));
 
 const ResetFocusButton = styled("div")({
   position: "absolute",
