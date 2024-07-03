@@ -20,7 +20,7 @@ jobs:
         with:
           registry-url: "https://npm.pkg.github.com"
           cache: "pnpm"
-          node_version: "22.2.0"
+          node-version: "22.2.0"
 
       - name: Get pnpm store directory
         shell: bash
