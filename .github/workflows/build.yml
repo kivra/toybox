@@ -15,6 +15,13 @@ jobs:
 
       - uses: asdf-vm/actions/install@v3
 
+      - name: ⚙️ Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          registry-url: "https://npm.pkg.github.com"
+          cache: "pnpm"
+          node-version: ".tool-versions"
+
       - name: Get pnpm store directory
         shell: bash
         run: |
