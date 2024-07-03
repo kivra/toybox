@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
-import { Switch, Text, Button, ActionIcon, Tooltip } from "@mantine/core";
-import { action } from "mobx";
+import { Text, Button } from "@mantine/core";
 import { observer } from "mobx-react-lite";
 import { Fragment } from "react";
 import { ControlTitle } from "./atoms";
@@ -10,47 +9,21 @@ import { SegmentControl } from "./SegmentControl";
 import { TextControl } from "./TextControl";
 import { NumberControl } from "./NumberControl";
 import { Control } from "./useControl";
-import { DarkMode } from "./useIsDarkMode";
-import { FocusIcon } from "../../../icons/FocusIcon";
 
 interface Props {
   controls: Control;
-  darkMode: DarkMode;
   sectionId: string;
 }
 
-export const Controls = observer(({ controls, darkMode, sectionId }: Props) => {
+export const Controls = observer(({ controls }: Props) => {
   return (
     <>
-      <HelpActions>
-        <Tooltip withArrow arrowPosition="center" label="Reset focus">
-          <ActionIcon
-            onClick={() => {
-              const resetEl = document.getElementById(`reset-${sectionId}`);
-              if (resetEl) {
-                resetEl.focus();
-              }
-            }}
-            size="lg"
-          >
-            <FocusIcon />
-          </ActionIcon>
-        </Tooltip>
-      </HelpActions>
-      <Switch
-        label="Darkmode"
-        checked={darkMode.isDarkMode}
-        onChange={action((event) =>
-          darkMode.setIsDarkMode(event.currentTarget.checked)
-        )}
-      />
-      <ControlSpace />
       {Object.entries(controls.state).map(([name, control]) => {
         switch (control.type) {
           case "color":
             return (
               <Fragment key={name}>
-                <ControlTitle order={6}>{control.displayName}</ControlTitle>
+                <ControlTitle>{control.displayName}</ControlTitle>
                 <ColorControl control={control} />
                 <ControlSpace />
               </Fragment>
@@ -58,7 +31,7 @@ export const Controls = observer(({ controls, darkMode, sectionId }: Props) => {
           case "boolean":
             return (
               <Fragment key={name}>
-                <Text size="xs" color="gray" style={{ marginBottom: "8px" }}>
+                <Text size="xs" style={{ marginBottom: "8px" }}>
                   {control.description}
                 </Text>
                 <BooleanControl
@@ -72,8 +45,8 @@ export const Controls = observer(({ controls, darkMode, sectionId }: Props) => {
           case "text":
             return (
               <Fragment key={name}>
-                <ControlTitle order={6}>{control.displayName}</ControlTitle>
-                <Text size="xs" color="gray" style={{ marginBottom: "8px" }}>
+                <ControlTitle>{control.displayName}</ControlTitle>
+                <Text size="xs" style={{ marginBottom: "8px" }}>
                   {control.description}
                 </Text>
                 <TextControl control={control} />
@@ -83,8 +56,8 @@ export const Controls = observer(({ controls, darkMode, sectionId }: Props) => {
           case "number":
             return (
               <Fragment key={name}>
-                <ControlTitle order={6}>{control.displayName}</ControlTitle>
-                <Text size="xs" color="gray" style={{ marginBottom: "8px" }}>
+                <ControlTitle>{control.displayName}</ControlTitle>
+                <Text size="xs" style={{ marginBottom: "8px" }}>
                   {control.description}
                 </Text>
                 <NumberControl control={control} />
@@ -112,12 +85,6 @@ export const Controls = observer(({ controls, darkMode, sectionId }: Props) => {
     </>
   );
 });
-
-const HelpActions = styled("div")`
-  margin-top: -6px;
-  margin-bottom: 16px;
-  padding-bottom: 6px;
-`;
 
 const ControlSpace = styled.div`
   margin-bottom: 12px;

@@ -1,6 +1,15 @@
-import styled from '@emotion/styled';
-import { Title } from '@mantine/core';
+import React from "react";
+import { Text } from "@mantine/core";
 
-export const ControlTitle = styled(Title)`
-  margin: 10px 0 5px 0 !important;
-`;
+export const ControlTitle: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => (
+  <Text
+    style={{
+      margin: "12px 0 6px 0",
+      fontWeight: 700,
+    }}
+  >
+    {children}
+  </Text>
+);

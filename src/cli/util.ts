@@ -21,15 +21,6 @@ export const htmlContent = (config: Config) => {
     />
 
     <title>${config.title}</title>
-    <style>
-      html,
-      body {
-        margin: 0;
-        font-family: 'DM Sans', sans-serif;
-        font-display: swap;
-        font-size: 16px;
-      }
-    </style>
   </head>
 
   <body>

@@ -10,22 +10,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: asdf-vm/actions/install@v3
 
       - name: ⚙️ Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: "20.13.1"
           registry-url: "https://npm.pkg.github.com"
+          cache: "pnpm"
 
-      - name: ⬇️ Install Dependencies
-        run: npm ci
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
-      - name: ⚙️ Type check
-        run: npx tsc
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: ⬇️ Install dependencies
+        shell: bash
+        run: pnpm install --frozen-lockfile --prefer-offline
+
+      - name: 🧐 Typecheck
+        run: pnpm typecheck
 
       - name: ✅ Test
-        run: npx vitest run
+        run: pnpm e2e:unit:test
 
       - name: 📦 Semantic Release
         uses: cycjimmy/semantic-release-action@v3

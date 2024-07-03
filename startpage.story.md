@@ -1,46 +1,13 @@
-## Toybox 🪀
+# Creating stories in Toybox
 
-> Tool for building UI components in isolation, and an easy way to document them.
-
-### 🚀 Installing
-
-Install the library by running `pnpm install @kivra/toybox` (it is currently only available on Github [registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry))
-
-You will now need to create a config file for toybox. The file must be named `toybox.config.ts` and be placed in the root folder of your project. All paths will be relative to this file.
-
-```ts
-// toybox.config.ts
-import type { Config } from "@kivra/toybox";
-
-const config: Config = {
-  storyPath: "src",
-  wrapperComponent: {
-    path: "@kivra/react-components",
-    componentName: "KivraTheme",
-  },
-  title: "My web app",
-  emojiIcon: "🐒",
-};
-
-module.exports = config;
-```
-
-You are now ready to start Toybox: `pnpm run start`.
-
-### 🤩 Creating a story
-
-To create a story is easy.
-
-Just create a file that ends with `.story.tsx` or `.story.md` if you just want to write markdown text.
-
-For example. If you have a component called `Button.tsx`, create a file that is called `Button.story.tsx` beside it and add the follwoing code:
+Creating a story is simple. Just make a file ending with `.story.tsx` for JSX or `.story.md` for markdown text. For instance, if you have a `Button.tsx` component, create a `Button.story.tsx` file next to it and include the following code:
 
 ```tsx
 import type { Story } from '@kivra/toybox';
 import { Button } from './Button';
 
 export const story: Story = {
-header: {
+  header: {
     title: 'Button', // Title of story
     description:
       'Buttons communicate actions that users can take. Button labels express what action will occur when the user interacts with it.', // Description of the story.
@@ -111,8 +78,3 @@ header: {
   ]
 };
 ```
-
-### 🧞 Commands
-
-- `npx toybox`: Start a preview of toybox.
-- `npx toybox build`: Build a static version of toybox. The new files will be placed in `toybox_dist`
