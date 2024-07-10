@@ -38,7 +38,8 @@ export function Navbar({ routes, onItemClick }: Props) {
 
 function MenuItems({ routes, onItemClick }: Props) {
   const {
-    defaultAccordionValue,
+    accordionValues,
+    setAccordionValues,
     activeStoryUrl,
     searchString,
     setSearchString,
@@ -74,7 +75,11 @@ function MenuItems({ routes, onItemClick }: Props) {
       {stories.map(([name, { stories }]) => {
         return (
           <div key={name}>
-            <Accordion defaultValue={defaultAccordionValue}>
+            <Accordion
+              multiple
+              onChange={setAccordionValues}
+              value={accordionValues}
+            >
               <Accordion.Item value={name} style={{ border: 0 }}>
                 <AccordionTrigger>
                   <AccordionTitle>{name}</AccordionTitle>
@@ -132,14 +137,16 @@ const useStoriesList = (routes: NestedStoryRoute) => {
       ] as const
   );
   const allAccordionValues = routesEntries.map(([name]) => name);
-  const defaultAccordionValue = allAccordionValues[0];
+  const [accordionValues, setAccordionValues] =
+    useState<string[]>(allAccordionValues);
 
   return {
     activeStoryUrl: location.pathname,
     stories,
     searchString,
     setSearchString,
-    defaultAccordionValue,
+    accordionValues,
+    setAccordionValues,
   };
 };
 
@@ -249,15 +256,6 @@ const MenuItemWrapper = styled.div(
 
 const SearchBar = styled.div({
   margin: "0px 0px 24px 0px",
-});
-
-const CategoryTitle = styled.p({
-  color: "var(--green-primary)",
-  fontSize: "0.875rem",
-  fontWeight: 700,
-  textTransform: "uppercase",
-  marginTop: "0.75rem",
-  marginBottom: "0.5rem",
 });
 
 /**
