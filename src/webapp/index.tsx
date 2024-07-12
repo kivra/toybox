@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Main } from "./layout/Main";
 import { ModuleComponent } from "./ModuleComponent";
 import { createRouteTree, extractAllRoutes } from "./routeLoader";
@@ -14,11 +14,12 @@ function App() {
     <>
       <Router>
         <Main routes={routeTree}>
-          <Routes>
+          <Switch>
             {"__STARTPAGE_COMPONENT_PATH__" && (
               <Route
+                exact
                 path="/"
-                element={
+                component={() => (
                   <ModuleComponent
                     route={{
                       component: () =>
@@ -28,19 +29,20 @@ function App() {
                       headName: "startpage",
                     }}
                   />
-                }
+                )}
               />
             )}
             {allRoutes.map((route) => {
               return (
                 <Route
+                  exact
                   key={route.urlPath}
                   path={route.urlPath}
-                  Component={() => <ModuleComponent route={route} />}
+                  component={() => <ModuleComponent route={route} />}
                 />
               );
             })}
-          </Routes>
+          </Switch>
         </Main>
       </Router>
     </>
